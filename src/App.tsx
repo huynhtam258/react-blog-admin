@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
-
+import MainLayout from './layouts/MainLayout';
+import Unauthenticate from './layouts/UnauthenticateLayout';
+import Auth from './pages/auth/auth';
+import Blog from './pages/blog/components';
+import { useNavigate, useRoutes } from 'react-router-dom'
 function App() {
+  const elements = useRoutes([
+    {
+      path: '/auth/login',
+      element: <Auth />
+    },
+    {
+      path: '/blog',
+      element: <Blog />
+    }
+  ])
+  const token = localStorage.getItem('access_token')
+  const [login] = useState<boolean>(!!token)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(login) {
+      navigate('/blog')
+    }else {
+      navigate('/auth/login')
+    }
+  }, [login])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {
+        token &&
+        (<MainLayout>
+          {elements}
+        </MainLayout>)
+      }
+      {
+        !token && (
+          <Unauthenticate>
+            {elements}
+          </Unauthenticate>
+        )
+      }
+
     </div>
   );
 }
