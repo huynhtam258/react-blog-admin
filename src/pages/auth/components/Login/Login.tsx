@@ -19,9 +19,10 @@ export default function Login() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(login(loginForm)).unwrap().then((result) => {
-      const { access_token, refresh_token } = result
+      const { access_token, refresh_token, client_key } = result
       localStorage.setItem('access_token', access_token)
       localStorage.setItem('refresh_token', refresh_token)
+      localStorage.setItem('client_key', client_key)
       navigate('/blog')
     })
   }
