@@ -7,17 +7,26 @@ interface BlogState {
   editingPost: Post | null
   loading: boolean
   currentRequestId: undefined | string
+  postDetail: Post | null
 }
 
 const initialState: BlogState = {
   postList: [],
   editingPost: null,
   loading: false,
-  currentRequestId: undefined
+  currentRequestId: undefined,
+  postDetail: null
 }
 
 export const getPostList = createAsyncThunk('blog/getBlogList', async (_, thunkApi) => {
   const response = await http.get('/post', {
+    signal: thunkApi.signal
+  })
+  return response.data
+})
+
+export const getPostDetail = createAsyncThunk('blog/getPostDetail', async (postId: number, thunkApi) => {
+  const response = await http.get(`/post/${postId}`, {
     signal: thunkApi.signal
   })
   return response.data
@@ -83,6 +92,9 @@ const blogSlice = createSlice({
       })
       .addCase(addPost.fulfilled, (state, action) => {
         state.postList.push(action.payload)
+      })
+      .addCase(getPostDetail.fulfilled, (state, action) => {
+        state.postDetail = action.payload
       })
       // .addCase(updatePost.fulfilled, (state, action) => {
       //   state.postList.find((post, index) => {

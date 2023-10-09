@@ -13,6 +13,7 @@ const initialState: Post = {
   created_at: '',
   status: 0,
   updated_at: '',
+  content: '',
   user: null
 }
 export default function CreatePost() {

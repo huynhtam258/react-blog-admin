@@ -5,6 +5,7 @@ import Unauthenticate from './layouts/UnauthenticateLayout';
 import Auth from './pages/auth/auth';
 import Blog from './pages/blog/components';
 import { useNavigate, useRoutes } from 'react-router-dom'
+import BlogDetail from './pages/blog/components/BlogDetail';
 function App() {
   const elements = useRoutes([
     {
@@ -14,6 +15,10 @@ function App() {
     {
       path: '/blog',
       element: <Blog />
+    },
+    {
+      path: '/blog/:id',
+      element: <BlogDetail />
     }
   ])
   const token = localStorage.getItem('access_token')
