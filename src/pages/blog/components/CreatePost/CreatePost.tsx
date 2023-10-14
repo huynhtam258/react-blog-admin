@@ -2,9 +2,10 @@ import { Fragment, useEffect, useState } from "react"
 import { Post } from "../../../../types/blog.type"
 import { useSelector } from "react-redux"
 // import { addPost, cancelEditingPost, finishEditingPost } from '../../blog.reducer'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { RootState, useAppDispatch } from "../../../../store"
 import { addPost, getPostList, updatePost } from "../../blog.thunk"
-
 const initialState: Post = {
   id: 0,
   title: '',
@@ -18,6 +19,8 @@ const initialState: Post = {
 }
 export default function CreatePost() {
   const [formData, setFormData] = useState<Post>(initialState)
+  
+  // const [value, setValue] = useState('');
   const editingPost = useSelector((state: RootState) => state.blog.editingPost)
   const dispatch = useAppDispatch()
 
@@ -27,7 +30,10 @@ export default function CreatePost() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    
+    console.log(formData);
     if (editingPost) {
+      
       dispatch(
         updatePost({
           postId: editingPost.id,
@@ -109,6 +115,12 @@ export default function CreatePost() {
             onChange={(event) => setFormData((prev) => ({ ...prev, description: event.target.value }))}
           />
         </div>
+      </div>
+      <div className='mb-6'>
+        <label htmlFor='publishDate' className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
+          Content
+        </label>
+        <ReactQuill theme="snow" value={formData.content} onChange={(event) => setFormData((prev) => ({ ...prev, content: event }))} />
       </div>
       <div className='mb-6'>
         <label htmlFor='publishDate' className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>

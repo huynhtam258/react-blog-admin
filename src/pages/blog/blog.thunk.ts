@@ -34,7 +34,7 @@ export const getPostDetail = createAsyncThunk('blog/getPostDetail', async (postI
 
 export const addPost = createAsyncThunk('blog/addPost', async(body: Post, thunkApi) => {
   try {
-    const response = await http.post('/post', {  title: body.title, description: body.description, status: 1, user: 1}, {
+    const response = await http.post('/post', {  title: body.title, description: body.description, status: 1, user: 1, content: body.content, thumbnail: body.thumbnail}, {
       signal: thunkApi.signal
     })
     return response.data

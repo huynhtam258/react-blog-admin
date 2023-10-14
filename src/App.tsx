@@ -6,8 +6,13 @@ import Auth from './pages/auth/auth';
 import Blog from './pages/blog/components';
 import { useNavigate, useRoutes } from 'react-router-dom'
 import BlogDetail from './pages/blog/components/BlogDetail';
+import Home from './pages/home/components/Home';
 function App() {
   const elements = useRoutes([
+    {
+      path: '',
+      element: <Home />
+    },
     {
       path: '/auth/login',
       element: <Auth />
