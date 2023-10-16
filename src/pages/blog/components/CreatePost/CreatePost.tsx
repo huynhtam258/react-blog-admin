@@ -15,6 +15,8 @@ const initialState: Post = {
   status: 0,
   updated_at: '',
   content: '',
+  publish_date: '',
+  publish: false,
   user: null
 }
 export default function CreatePost() {
@@ -30,8 +32,6 @@ export default function CreatePost() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    
-    console.log(formData);
     if (editingPost) {
       
       dispatch(
@@ -130,10 +130,10 @@ export default function CreatePost() {
           type='datetime-local'
           id='publishDate'
           className='block w-56 rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500'
-          placeholder='Title'
-          value={formData.created_at}
+          placeholder='Publish date'
+          value={formData.publish_date[formData.publish_date.length - 1] === 'Z' ? formData.publish_date.slice(0, -3) : formData.publish_date}
           required
-          onChange={(event) => setFormData((prev) => ({ ...prev, created_at: event.target.value }))}
+          onChange={(event) => setFormData((prev) => ({ ...prev, publish_date: event.target.value }))}
         />
       </div>
       <div className='mb-6 flex items-center'>
@@ -141,7 +141,8 @@ export default function CreatePost() {
           id='publish'
           type='checkbox'
           className='h-4 w-4 focus:ring-2 focus:ring-blue-500'
-          onChange={(event) => setFormData((prev) => ({ ...prev, published: event.target.checked }))}
+          checked={formData.publish}
+          onChange={(event) => setFormData((prev) => ({ ...prev, publish: event.target.checked }))}
         />
         <label htmlFor='publish' className='ml-2 text-sm font-medium text-gray-900'>
           Publish

@@ -9,5 +9,7 @@ export interface Post {
   created_at: string,
   updated_at: string,
   content: string,
+  publish: boolean,
+  publish_date: string,
   user: User | null
 }

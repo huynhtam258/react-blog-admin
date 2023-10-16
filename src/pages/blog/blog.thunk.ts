@@ -10,6 +10,16 @@ interface BlogState {
   postDetail: Post | null
 }
 
+interface CreatePost {
+  title: string, 
+  description: string, 
+  status: number, 
+  user: number, 
+  content: string, 
+  thumbnail: string, 
+  publish: boolean,
+  publish_date: string
+}
 const initialState: BlogState = {
   postList: [],
   editingPost: null,
@@ -34,7 +44,17 @@ export const getPostDetail = createAsyncThunk('blog/getPostDetail', async (postI
 
 export const addPost = createAsyncThunk('blog/addPost', async(body: Post, thunkApi) => {
   try {
-    const response = await http.post('/post', {  title: body.title, description: body.description, status: 1, user: 1, content: body.content, thumbnail: body.thumbnail}, {
+    const post = {  
+      title: body.title, 
+      description: body.description, 
+      status: 1, 
+      user: 1, 
+      content: body.content, 
+      thumbnail: body.thumbnail, 
+      publish: body.publish ,
+      publish_date: body.publish_date
+    } as CreatePost
+    const response = await http.post('/post', post, {
       signal: thunkApi.signal
     })
     return response.data
