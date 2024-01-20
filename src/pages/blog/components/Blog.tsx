@@ -3,9 +3,6 @@ import PostList from "./PostList";
 
 export default function Blog() {
   return (
-    <div className="p-5">
-      <CreatePost></CreatePost>
-      <PostList></PostList>
-    </div>
+    <PostList></PostList>
   )
 }

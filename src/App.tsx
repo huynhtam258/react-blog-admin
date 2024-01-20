@@ -7,6 +7,7 @@ import Blog from './pages/blog/components';
 import { useNavigate, useRoutes } from 'react-router-dom'
 import BlogDetail from './pages/blog/components/BlogDetail';
 import Home from './pages/home/components/Home';
+import CreatePost from './pages/blog/components/CreatePost';
 function App() {
   const elements = useRoutes([
     {
@@ -22,6 +23,10 @@ function App() {
       element: <Blog />
     },
     {
+      path: '/editor-blog',
+      element: <CreatePost />
+    },
+    {
       path: '/blog/:id',
       element: <BlogDetail />
     }
@@ -31,9 +36,7 @@ function App() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if(login) {
-      navigate('/blog')
-    }else {
+    if(!login) {
       navigate('/auth/login')
     }
   }, [login])
