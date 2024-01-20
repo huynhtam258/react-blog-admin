@@ -28,8 +28,10 @@ const initialState: BlogState = {
   postDetail: null
 }
 
-export const getPostList = createAsyncThunk('blog/getBlogList', async (_, thunkApi) => {
-  const response = await http.get('/post', {
+export const getPostList = createAsyncThunk('blog/getBlogList', async (params: any, thunkApi) => {
+  console.log(params);
+  
+  const response = await http.get(`/post?page=${params.page || 1}&items_per_page=${params.items_per_page || 10}`, {
     signal: thunkApi.signal
   })
   return response.data
@@ -108,7 +110,12 @@ const blogSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getPostList.fulfilled, (state, action) => {
-        state.postList = action.payload.data
+        console.log(action.payload.data);
+        const postList = action.payload.data
+        state.postList = postList.map((post: Post) => ({
+          ...post,
+          thumbnail: post.thumbnail || '/img/image-placeholder.png'
+        }))
       })
       .addCase(addPost.fulfilled, (state, action) => {
         state.postList.push(action.payload)

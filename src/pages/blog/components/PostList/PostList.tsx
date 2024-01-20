@@ -2,20 +2,23 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from "../../../../store"
 import PostItem from '../PostItem'
 // import { deletePost, startEditingPost } from '../../blog.reducer'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { deletePost, getPostList, startEditingPost } from './../../blog.thunk'
 import { useNavigate } from 'react-router-dom'
 
 export default function PostList() {
   const postList = useSelector((state: RootState) => state.blog.postList)
+  const [page, setPage] = useState<number>(1)
+  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    const promise = dispatch(getPostList())
+    const promise = dispatch(getPostList({ page: page, items_per_page: itemsPerPage}))
     return () => {
       promise.abort()
     }
   }, [dispatch])
+
   const handleDelete = (postId: number) => {
     dispatch(deletePost(postId))
   }

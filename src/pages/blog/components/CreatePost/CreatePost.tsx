@@ -43,7 +43,7 @@ export default function CreatePost() {
         .unwrap()
         .then(() => {
           setFormData(initialState)
-          dispatch(getPostList())
+          dispatch(getPostList({page: 1, items_per_page: 10}))
         })
       // dispatch(finishEditingPost(formData))
     } else {
