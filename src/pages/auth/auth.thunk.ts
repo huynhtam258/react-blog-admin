@@ -5,6 +5,7 @@ interface ILogin {
   email: string,
   password: string
 }
+
 export const login = createAsyncThunk('auth/login', async ({ email, password }: ILogin, thunkApi) => {
   try {
     const response = await http.post('/auth/login', {

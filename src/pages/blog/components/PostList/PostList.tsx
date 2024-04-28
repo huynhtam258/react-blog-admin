@@ -24,6 +24,7 @@ export default function PostList() {
   }
   const handleEditingPost = (postId: number) => {
     dispatch(startEditingPost(postId))
+    navigate('editor-blog')
   }
   const handleReadMorePost = (postId: number) => {
     navigate(`/blog/${postId}`)

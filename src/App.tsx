@@ -8,6 +8,9 @@ import { useNavigate, useRoutes } from 'react-router-dom'
 import BlogDetail from './pages/blog/components/BlogDetail';
 import Home from './pages/home/components/Home';
 import CreatePost from './pages/blog/components/CreatePost';
+import { RootState, useAppDispatch } from './store';
+import { getUserProfile } from './pages/user/user.thunk';
+import { useSelector } from 'react-redux';
 function App() {
   const elements = useRoutes([
     {
@@ -32,24 +35,38 @@ function App() {
     }
   ])
   const token = localStorage.getItem('access_token')
-  const [login] = useState<boolean>(!!token)
+  const [isLogin, setIsLogin] = useState<boolean>(false)
+  const userProfile = useSelector((state: RootState) => state.user.userProfile)
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if(!login) {
+    if(!token) {
       navigate('/auth/login')
+    } else {
+      initDataSource()
     }
-  }, [login])
+  }, [dispatch])
+
+  useEffect(() => {
+    if (userProfile) {
+      setIsLogin(true)
+    }
+  }, [userProfile])
+
+  const initDataSource = async () => {
+    await dispatch(getUserProfile())
+  }
   return (
     <div className="App">
       {
-        token &&
+        isLogin &&
         (<MainLayout>
           {elements}
         </MainLayout>)
       }
       {
-        !token && (
+        !isLogin && (
           <Unauthenticate>
             {elements}
           </Unauthenticate>
