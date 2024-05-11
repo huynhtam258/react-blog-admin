@@ -11,6 +11,7 @@ import CreatePost from './pages/blog/components/CreatePost';
 import { RootState, useAppDispatch } from './store';
 import { getUserProfile } from './pages/user/user.thunk';
 import { useSelector } from 'react-redux';
+import { BASE_KEY } from './enums/index'
 function App() {
   const elements = useRoutes([
     {
@@ -34,7 +35,7 @@ function App() {
       element: <BlogDetail />
     }
   ])
-  const token = localStorage.getItem('access_token')
+  const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN)
   const [isLogin, setIsLogin] = useState<boolean>(false)
   const userProfile = useSelector((state: RootState) => state.user.userProfile)
   const dispatch = useAppDispatch()

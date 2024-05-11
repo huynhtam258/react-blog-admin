@@ -2,6 +2,7 @@ import { useState } from "react"
 import { login } from "../../auth.thunk"
 import { useAppDispatch } from "../../../../store"
 import { useNavigate } from "react-router-dom"
+import { BASE_KEY } from './../../../../enums/index'
 
 const initialLoginForm = {
   email: '',
@@ -20,9 +21,9 @@ export default function Login() {
     event.preventDefault();
     dispatch(login(loginForm)).unwrap().then((result) => {
       const { access_token, refresh_token, client_key } = result
-      localStorage.setItem('access_token', access_token)
+      localStorage.setItem(BASE_KEY.ACCESS_TOKEN, access_token)
       localStorage.setItem('refresh_token', refresh_token)
-      localStorage.setItem('client_key', client_key)
+      localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key)
       navigate('/blog')
     })
   }
