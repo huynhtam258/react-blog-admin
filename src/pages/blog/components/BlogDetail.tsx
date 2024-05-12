@@ -33,7 +33,6 @@ export default function BlogDetail() {
                   <a href="#" rel="author" className="text-xl font-bold text-gray-900 dark:text-white">
                     {postDetail?.user?.first_name} {postDetail?.user?.last_name}
                   </a>
-                  {/* <p className="text-base text-gray-500 dark:text-gray-400">Graphic Designer, educator & CEO Flowbite</p> */}
                   <p className="text-base text-gray-500 dark:text-gray-400">
                     <time title="February 8th, 2022">{postDetail?.updated_at}</time></p>
                 </div>

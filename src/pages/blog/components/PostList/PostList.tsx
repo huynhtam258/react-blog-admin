@@ -21,6 +21,7 @@ export default function PostList() {
 
   const handleDelete = (postId: number) => {
     dispatch(deletePost(postId))
+    dispatch(getPostList({ page: page, items_per_page: itemsPerPage}))
   }
   const handleEditingPost = (postId: number) => {
     dispatch(startEditingPost(postId))

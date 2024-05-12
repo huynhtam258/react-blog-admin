@@ -85,7 +85,7 @@ export const updatePost = createAsyncThunk(
 export const deletePost = createAsyncThunk(
   'blog/deletePost',
   async (postId: number, thunkApi) => {
-    const response = await http.delete<Post>(`/post/${postId}`, {
+    const response = await http.patch<Post>(`/post/delete/${postId}`, {
       signal: thunkApi.signal
     })
     return response.data
