@@ -1,73 +1,44 @@
-import { useState } from "react";
+import { Card, Chip, List, ListItem, ListItemPrefix, ListItemSuffix, Typography } from "@material-tailwind/react";
+import { PresentationChartBarIcon, InboxIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
+
 const SideBar = () => {
-  const [open, setOpen] = useState(true);
-  const Menus = [
-    { title: "Dashboard", src: "Chart_fill", route: '' },
-    { title: "Editor", src: "Chat", route: 'editor-blog' },
-    { title: "Accounts", src: "User", gap: true, route: '' },
-    { title: "Schedule ", src: "Calendar", route: '' },
-    { title: "Search", src: "Search", route: '' },
-    { title: "Analytics", src: "Chart", route: '' },
-    { title: "Files ", src: "Folder", gap: true, route: '' },
-    { title: "Setting", src: "Setting", route: '' },
-  ];
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const onNavigate = (route: string) => {
-    navigate(route)
-  }
+  // const onNavigate = (route: string) => {
+  //   navigate(route);
+  // };
 
   const logout = () => {
-    localStorage.clear()
-    navigate('/auth/login')
-  }
+    localStorage.clear();
+    navigate('/auth/login');
+  };
+
+  // Danh sách các mục trong Sidebar
+  const sidebarItems = [
+    { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Dashboard" },
+    { icon: <InboxIcon className="h-5 w-5" />, label: "Inbox", suffix: <Chip value="14" size="sm" variant="ghost" className="rounded-full" /> },
+    { icon: <UserCircleIcon className="h-5 w-5" />, label: "Profile" },
+    { icon: <Cog6ToothIcon className="h-5 w-5" />, label: "Settings" },
+    { icon: <PowerIcon className="h-5 w-5" />, label: "Log Out" , onClick: logout},
+  ];
 
   return (
-    <div className="flex">
-      <div className={` ${open ? "w-72" : "w-20 "} bg-black h-screen p-5  pt-8 relative duration-300`} >
-        <img
-          src="/img/control.png"
-          className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
-           border-2 rounded-full  ${!open && "rotate-180"}`}
-          onClick={() => setOpen(!open)}
-        />
-        <div className="flex gap-x-4 items-center">
-          <img src="/img/logo.png" className={`cursor-pointer duration-500 ${open && "rotate-[360deg]"}`} />
-          <h1 className={`text-white origin-left font-medium text-xl duration-200 ${!open && "scale-0" }`}>
-            Admin
-          </h1>
-        </div>
-        <ul className="pt-6">
-          {Menus.map((Menu, index) => (
-            <li
-              key={index}
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-              ${Menu.gap ? "mt-9" : "mt-2"} ${index === 0 && "bg-light-white" } `}
-              onClick={() => {
-                onNavigate(Menu.route)
-              }}
-            >
-              <img src={`/img/${Menu.src}.png`} />
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                {Menu.title}
-              </span>
-            </li>
-          ))}
-          <li
-              className={`flex  rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4`}
-              onClick={() => {
-                logout()
-              }}
-            >
-              <span className={`${!open && "hidden"} origin-left duration-200`}>
-                Logout
-              </span>
-            </li>
-        </ul>
-      </div>
-    </div>
+    <Card className="h-100vh w-full max-w-[20rem] p-4">
+      {/* <div className="mb-2 p-4">
+        <Typography variant="h5">Sidebar</Typography>
+      </div> */}
+      <List>
+        {sidebarItems.map((item, index) => (
+          <ListItem key={index}  onClick={item.onClick}>
+            <ListItemPrefix>{item.icon}</ListItemPrefix>
+            {item.label}
+            {item.suffix && <ListItemSuffix>{item.suffix}</ListItemSuffix>}
+          </ListItem>
+        ))}
+      </List>
+    </Card>
   );
 };
+
 export default SideBar;
