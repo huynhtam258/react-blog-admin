@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../../../store"
 import { useNavigate } from "react-router-dom"
 import { BASE_KEY } from './../../../../enums/index'
 import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input } from "@material-tailwind/react"
+import { setToken } from "../../auth.slice"
 
 const initialLoginForm = {
   email: '',
@@ -25,7 +26,8 @@ export default function Login() {
       localStorage.setItem(BASE_KEY.ACCESS_TOKEN, access_token)
       localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token)
       localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key)
-      navigate('/blog')
+      dispatch(setToken(access_token))
+      // 
     })
   }
   return (
@@ -67,7 +69,6 @@ export default function Login() {
             Sign In
           </Button>
           <Typography variant="small" className="mt-6 flex justify-center">
-            Don&apos;t have an account?
             <Typography
               as="a"
               href="#signup"

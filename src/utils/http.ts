@@ -1,36 +1,41 @@
-import axios, { AxiosInstance } from 'axios'
-import { useNavigate } from "react-router-dom";
-import { BASE_KEY } from './../enums/index'
+import axios from 'axios';
+import { BASE_KEY } from './../enums/index';
+import { logout } from './../services/auth.service';
+import { useAppDispatch } from '../store';
+import { useNavigate } from 'react-router-dom';
 
-class Http {
-  instance: AxiosInstance
-  constructor() {
-    const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN)
-    const clientKey = localStorage.getItem(BASE_KEY.CLIENT_KEY)
-    this.instance = axios.create({
-      baseURL: process.env.REACT_APP_BASE_URL,
-      timeout: Number(process.env.REACT_APP_TIMEOUT || 0),
-      headers: {
-        'authorization': `Bearer ${token}`,
-        'x-client-id': clientKey
-      }
-    })
+const http = axios.create({
+  baseURL: process.env.REACT_APP_BASE_URL,
+  timeout: Number(process.env.REACT_APP_TIMEOUT || 0),
+});
 
-    this.instance.interceptors.response.use(
-      (response) => {
-        return response
-      },
-      (error) => {
-        if (error.response.config.url === '/user/profile') {
-          localStorage.clear()
-          const navigate = useNavigate()
-          navigate('/auth/login')
-        }
-      }
-    )
+http.interceptors.request.use((config) => {
+  const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN);
+  const clientKey = localStorage.getItem(BASE_KEY.CLIENT_KEY);
+
+  if (token) {
+    config.headers['authorization'] = `Bearer ${token}`;
   }
-}
 
-const http = new Http().instance
+  if (clientKey) {
+    config.headers['x-client-id'] = clientKey;
+  }
 
-export default http
+  return config;
+});
+
+http.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.config.url === '/user/profile') {
+      const dispatch = useAppDispatch();
+      const navigate = useNavigate();
+      logout(dispatch, navigate);
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default http;

@@ -12,6 +12,7 @@ import { RootState, useAppDispatch } from './store';
 import { getUserProfile } from './pages/user/user.thunk';
 import { useSelector } from 'react-redux';
 import { BASE_KEY } from './enums/index'
+import { setToken } from './pages/auth/auth.slice';
 function App() {
   const elements = useRoutes([
     {
@@ -38,25 +39,32 @@ function App() {
   const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN)
   const [isLogin, setIsLogin] = useState<boolean>(false)
   const userProfile = useSelector((state: RootState) => state.user.userProfile)
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken)
+  
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if(!token) {
-      navigate('/auth/login')
+    if (token) {
+      dispatch(setToken(token))
     } else {
-      initDataSource()
+      navigate('/auth/login')
     }
-  }, [dispatch])
+  }, [token])
 
   useEffect(() => {
-    if (userProfile) {
-      setIsLogin(true)
+    if (accessToken) {
+      initDataSource()
     }
+  }, [accessToken])
+
+  useEffect(() => {
+    setIsLogin(!!userProfile)
   }, [userProfile])
 
   const initDataSource = async () => {
     await dispatch(getUserProfile())
+    navigate('/blog')
   }
   return (
     <div className="App">

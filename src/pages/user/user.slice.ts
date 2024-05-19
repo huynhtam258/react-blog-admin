@@ -14,8 +14,8 @@ const userSlice = createSlice({
   name: 'user',
   initialState: initialState,
   reducers: {
-    setUserProfile: (state, action: PayloadAction<any>) => {
-      state = action.payload
+    setUserProfile: (state, action: PayloadAction<{ userProfile: User | null}>) => {
+      state.userProfile = action.payload.userProfile;
     }
   },
   extraReducers(builder) {
@@ -25,6 +25,8 @@ const userSlice = createSlice({
       })
   }
 })
+
+export const { setUserProfile } = userSlice.actions
 
 const userReducer = userSlice.reducer
 export default userReducer
