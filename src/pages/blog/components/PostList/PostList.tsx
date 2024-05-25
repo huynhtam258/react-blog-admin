@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from "../../../../store"
 import PostItem from '../PostItem'
-// import { deletePost, startEditingPost } from '../../blog.reducer'
+import { Card, Typography } from "@material-tailwind/react";
 import { useEffect, useState } from 'react'
 import { deletePost, getPostList, startEditingPost } from './../../blog.thunk'
 import { useNavigate } from 'react-router-dom'
@@ -13,7 +13,7 @@ export default function PostList() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    const promise = dispatch(getPostList({ page: page, items_per_page: itemsPerPage}))
+    const promise = dispatch(getPostList({ page: page, items_per_page: itemsPerPage }))
     return () => {
       promise.abort()
     }
@@ -21,7 +21,7 @@ export default function PostList() {
 
   const handleDelete = (postId: number) => {
     dispatch(deletePost(postId))
-    dispatch(getPostList({ page: page, items_per_page: itemsPerPage}))
+    dispatch(getPostList({ page: page, items_per_page: itemsPerPage }))
   }
   const handleEditingPost = (postId: number) => {
     dispatch(startEditingPost(postId))
@@ -30,24 +30,46 @@ export default function PostList() {
   const handleReadMorePost = (postId: number) => {
     navigate(`/blog/${postId}`)
   }
+
+  // table
+  const TABLE_HEAD = ["Title", "Description", "Created date", ""];
+
   return (
-    <div className='bg-white'>
-      <div className='mx-auto max-w-screen-xl px-4 md:px-8'>
-        <div className='mb-10 md:mb-16'>
-          <h2 className='mb-4 text-left text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl'>Blog</h2>
-        </div>
-        <div className='grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-2 xl:grid-cols-2 xl:gap-8'>
+    <Card className="h-full w-full overflow-scroll">
+      <table className="w-full min-w-max table-auto text-left">
+        <thead>
+          <tr>
+            {TABLE_HEAD.map((head) => (
+              <th
+                key={head}
+                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+              >
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none opacity-70"
+                >
+                  {head}
+                </Typography>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
           {postList.map((post, index) => {
-            return <PostItem 
-              post={post} 
-              handleDelete={handleDelete} 
+            const isLast = index === postList.length - 1;
+            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+            return <PostItem
+              post={post}
+              classes={classes}
+              handleDelete={handleDelete}
               handleEditingPost={handleEditingPost}
-              handleReadMorePost={handleReadMorePost} 
-              key={`postItem-${index}`} 
+              handleReadMorePost={handleReadMorePost}
+              key={`postItem-${index}`}
             />
           })}
-        </div>
-      </div>
-    </div>
+        </tbody>
+      </table>
+    </Card>
   )
 }

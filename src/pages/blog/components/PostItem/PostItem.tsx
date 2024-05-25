@@ -1,32 +1,46 @@
-import { Button, Card, CardBody, CardFooter, CardHeader, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
+import { Button, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
 import { Post } from "../../../../types/blog.type"
+import { ListBulletIcon } from "@heroicons/react/24/solid"
 
 interface PostItemType {
   post: Post,
+  classes: string,
   handleDelete: (postId: number) => void,
   handleEditingPost: (postId: number) => void
   handleReadMorePost: (postId: number) => void
 }
 
-export default function PostItem({ post, handleDelete, handleEditingPost, handleReadMorePost }: PostItemType) {
+export default function PostItem({ post, classes, handleDelete, handleEditingPost, handleReadMorePost }: PostItemType) {
   return (
-    <Card className="mt-6 w-96">
-      <CardHeader color="blue-gray" className="relative h-56">
-        <img
-          src={post.thumbnail}
-          loading='lazy'
-          alt={post.title}
-        />
-      </CardHeader>
-      <CardBody>
-        <Typography variant="h5" color="blue-gray" className="mb-2">
+    <tr>
+      <td className={classes}>
+        <Typography
+          variant="small"
+          color="blue-gray"
+          className="font-normal"
+        >
           {post.title}
         </Typography>
-        <Typography>
+      </td>
+      <td className={classes}>
+        <Typography
+          variant="small"
+          color="blue-gray"
+          className="font-normal"
+        >
           {post.description}
         </Typography>
-      </CardBody>
-      <CardFooter className="pt-0">
+      </td>
+      <td className={classes}>
+        <Typography
+          variant="small"
+          color="blue-gray"
+          className="font-normal"
+        >
+          {post.created_at}
+        </Typography>
+      </td>
+      <td className={classes}>
         <Menu
           animate={{
             mount: { y: 0 },
@@ -34,7 +48,8 @@ export default function PostItem({ post, handleDelete, handleEditingPost, handle
           }}
         >
           <MenuHandler>
-            <Button className="w-fit">Options</Button>
+            <ListBulletIcon></ListBulletIcon>
+            {/* <Button className="w-fit">Options</Button> */}
           </MenuHandler>
           <MenuList>
             <MenuItem onClick={() => handleEditingPost(post.id)}>Edit</MenuItem>
@@ -42,7 +57,7 @@ export default function PostItem({ post, handleDelete, handleEditingPost, handle
             <MenuItem onClick={() => handleReadMorePost(post.id)}>Read More</MenuItem>
           </MenuList>
         </Menu>
-      </CardFooter>
-    </Card>
+      </td>
+    </tr>
   )
 }

@@ -1,5 +1,5 @@
 import { Button, Card, Chip, Dialog, DialogBody, DialogFooter, DialogHeader, List, ListItem, ListItemPrefix, ListItemSuffix } from "@material-tailwind/react";
-import { PresentationChartBarIcon, InboxIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon } from "@heroicons/react/24/solid";
+import { PresentationChartBarIcon, InboxIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon, } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store";
 import { logout } from "../services/auth.service";
@@ -9,7 +9,7 @@ const SideBar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
   const [open, setOpen] = useState(false);
- 
+
   const handleOpen = () => setOpen(!open);
 
   const handleLogOut = () => {
@@ -29,9 +29,6 @@ const SideBar = () => {
   return (
     <>
       <Card className="h-100vh w-full max-w-[20rem] p-4">
-        {/* <div className="mb-2 p-4">
-        <Typography variant="h5">Sidebar</Typography>
-      </div> */}
         <List>
           {sidebarItems.map((item, index) => (
             <ListItem key={index} onClick={item.onClick}>
