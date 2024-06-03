@@ -29,8 +29,6 @@ http.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error.config.url);
-    
     if (error.config.url === '/user/profile') {
       const dispatch = useAppDispatch();
       const navigate = useNavigate();
