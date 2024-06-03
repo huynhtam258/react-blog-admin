@@ -24,6 +24,8 @@ export default function PostList() {
     dispatch(getPostList({ page: page, items_per_page: itemsPerPage }))
   }
   const handleEditingPost = (postId: number) => {
+    console.log(postId);
+    
     dispatch(startEditingPost(postId))
     navigate('editor-blog')
   }

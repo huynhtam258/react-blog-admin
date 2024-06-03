@@ -48,13 +48,12 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
           }}
         >
           <MenuHandler>
-            <ListBulletIcon></ListBulletIcon>
-            {/* <Button className="w-fit">Options</Button> */}
+            <ListBulletIcon width={24}></ListBulletIcon>
           </MenuHandler>
           <MenuList>
+            <MenuItem onClick={() => handleReadMorePost(post.id)}>Read More</MenuItem>
             <MenuItem onClick={() => handleEditingPost(post.id)}>Edit</MenuItem>
             <MenuItem onClick={() => handleDelete(post.id)}>Delete</MenuItem>
-            <MenuItem onClick={() => handleReadMorePost(post.id)}>Read More</MenuItem>
           </MenuList>
         </Menu>
       </td>
