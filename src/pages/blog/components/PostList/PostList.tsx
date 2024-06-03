@@ -1,40 +1,41 @@
-import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from "../../../../store"
-import PostItem from '../PostItem'
-import { Card, Typography } from "@material-tailwind/react";
-import { useEffect, useState } from 'react'
-import { deletePost, getPostList, startEditingPost } from './../../blog.thunk'
-import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../../../store';
+import PostItem from '../PostItem';
+import { Card, Typography } from '@material-tailwind/react';
+import { useEffect, useState } from 'react';
+import { deletePost, getPostList, startEditingPost } from './../../blog.thunk';
+import { useNavigate } from 'react-router-dom';
 
 export default function PostList() {
-  const postList = useSelector((state: RootState) => state.blog.postList)
-  const [page, setPage] = useState<number>(1)
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10)
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const postList = useSelector((state: RootState) => state.blog.postList);
+  const [page] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
-    const promise = dispatch(getPostList({ page: page, items_per_page: itemsPerPage }))
+    const promise = dispatch(getPostList({ page, items_per_page: itemsPerPage }));
     return () => {
-      promise.abort()
-    }
-  }, [dispatch])
+      promise.abort();
+    };
+  }, [dispatch, page, itemsPerPage]); // Include 'page' and 'itemsPerPage' in the dependency array
 
   const handleDelete = (postId: number) => {
-    dispatch(deletePost(postId))
-    dispatch(getPostList({ page: page, items_per_page: itemsPerPage }))
-  }
+    dispatch(deletePost(postId));
+    dispatch(getPostList({ page, items_per_page: itemsPerPage }));
+  };
+
   const handleEditingPost = (postId: number) => {
-    console.log(postId);
-    
-    dispatch(startEditingPost(postId))
-    navigate('editor-blog')
-  }
+    dispatch(startEditingPost(postId));
+    navigate('editor-blog');
+  };
+
   const handleReadMorePost = (postId: number) => {
-    navigate(`/blog/${postId}`)
-  }
+    navigate(`/blog/${postId}`);
+  };
 
   // table
-  const TABLE_HEAD = ["Title", "Description", "Created date", ""];
+  const TABLE_HEAD = ['Title', 'Description', 'Created date', ''];
 
   return (
     <Card className="h-full w-full overflow-scroll">
@@ -60,18 +61,20 @@ export default function PostList() {
         <tbody>
           {postList.map((post, index) => {
             const isLast = index === postList.length - 1;
-            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
-            return <PostItem
-              post={post}
-              classes={classes}
-              handleDelete={handleDelete}
-              handleEditingPost={handleEditingPost}
-              handleReadMorePost={handleReadMorePost}
-              key={`postItem-${index}`}
-            />
+            const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+            return (
+              <PostItem
+                post={post}
+                classes={classes}
+                handleDelete={handleDelete}
+                handleEditingPost={handleEditingPost}
+                handleReadMorePost={handleReadMorePost}
+                key={`postItem-${index}`}
+              />
+            );
           })}
         </tbody>
       </table>
     </Card>
-  )
+  );
 }

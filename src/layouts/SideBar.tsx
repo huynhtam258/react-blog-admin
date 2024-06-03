@@ -1,5 +1,5 @@
-import { Button, Card, Chip, Dialog, DialogBody, DialogFooter, DialogHeader, List, ListItem, ListItemPrefix, ListItemSuffix } from "@material-tailwind/react";
-import { PresentationChartBarIcon, InboxIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon, } from "@heroicons/react/24/solid";
+import { Button, Card, Dialog, DialogBody, DialogFooter, DialogHeader, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
+import { PresentationChartBarIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon, } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store";
 import { logout } from "../services/auth.service";

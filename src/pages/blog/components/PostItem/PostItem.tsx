@@ -1,4 +1,4 @@
-import { Button, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
+import { Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
 import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
 
