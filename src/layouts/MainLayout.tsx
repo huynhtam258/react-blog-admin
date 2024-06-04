@@ -1,6 +1,9 @@
 import React from "react"
 import SideBar from "./SideBar"
 
+// styles
+import './MainLayout.scss'
+
 interface Props {
   children: React.ReactNode
 }

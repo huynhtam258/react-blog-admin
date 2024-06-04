@@ -5,6 +5,9 @@ import { useAppDispatch } from "../store";
 import { logout } from "../services/auth.service";
 import { useState } from "react";
 
+// styles
+import './SideBar.scss'
+
 const SideBar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch()
@@ -21,10 +24,8 @@ const SideBar = () => {
     navigate(path)
   }
 
-  // Danh sách các mục trong Sidebar
   const sidebarItems = [
     { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Dashboard", onClick: ()=> {handleNavigate('/')}},
-    // { icon: <InboxIcon className="h-5 w-5" />, label: "Inbox", suffix: <Chip value="14" size="sm" variant="ghost" className="rounded-full" /> },
     { icon: <UserCircleIcon className="h-5 w-5" />, label: "Profile" },
     { icon: <Cog6ToothIcon className="h-5 w-5" />, label: "Create post" },
     { icon: <PowerIcon className="h-5 w-5" />, label: "Log Out", onClick: handleOpen },
@@ -34,15 +35,11 @@ const SideBar = () => {
   return (
     <>
       <Card className="h-100vh w-full max-w-[20rem] p-4">
-        {/* <div className="mb-2 p-4">
-        <Typography variant="h5">Sidebar</Typography>
-      </div> */}
         <List>
           {sidebarItems.map((item, index) => (
             <ListItem key={index} onClick={item.onClick}>
               <ListItemPrefix>{item.icon}</ListItemPrefix>
               {item.label}
-              {/* {item.suffix && <ListItemSuffix>{item.suffix}</ListItemSuffix>} */}
             </ListItem>
           ))}
         </List>

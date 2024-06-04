@@ -1,17 +1,15 @@
 import React from 'react'
 
+// styles
+import './UnauthenticateLayout.scss'
+
 interface Props {
   children?: React.ReactNode
 }
 export default function Unauthenticate({ children }: Props) {
-  const style = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-  }
+
   return (
-    <div className='unauthenticate-layout' style={style}>
+    <div className='unauthenticate-layout'>
       {children}
     </div>
   )
