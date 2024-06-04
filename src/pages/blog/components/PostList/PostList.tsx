@@ -35,7 +35,7 @@ export default function PostList() {
   };
 
   // table
-  const TABLE_HEAD = ['Title', 'Description', 'Created date', ''];
+  const TABLE_HEAD = ['Title', 'Author', 'Created date', ''];
 
   return (
     <Card className="h-full w-full overflow-scroll">

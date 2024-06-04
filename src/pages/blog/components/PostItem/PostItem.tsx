@@ -1,6 +1,7 @@
 import { Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
 import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
+import { convertCommonDate } from "../../../../utils/date"
 
 interface PostItemType {
   post: Post,
@@ -28,7 +29,7 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
           color="blue-gray"
           className="font-normal"
         >
-          {post.description}
+          {`${post.user?.first_name} ${post.user?.last_name}`}
         </Typography>
       </td>
       <td className={classes}>
@@ -37,7 +38,8 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
           color="blue-gray"
           className="font-normal"
         >
-          {post.created_at}
+          {convertCommonDate(post.created_at)}
+          {/* {post.created_at} */}
         </Typography>
       </td>
       <td className={classes}>
