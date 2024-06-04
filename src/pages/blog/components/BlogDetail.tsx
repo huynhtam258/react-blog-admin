@@ -3,6 +3,7 @@ import { RootState, useAppDispatch } from "../../../store"
 import { useEffect } from "react"
 import { getPostDetail } from "../blog.thunk"
 import { useParams } from "react-router-dom"
+import { convertCommonDate } from "../../../utils/date"
 
 export default function BlogDetail() {
   const postDetail = useSelector((state: RootState) => state.blog.postDetail)
@@ -34,7 +35,8 @@ export default function BlogDetail() {
                     {postDetail?.user?.first_name} {postDetail?.user?.last_name}
                   </a>
                   <p className="text-base text-gray-500 dark:text-gray-400">
-                    <time title="February 8th, 2022">{postDetail?.updated_at}</time></p>
+                    <time>{ convertCommonDate(postDetail?.updated_at || '')}</time>
+                    </p>
                 </div>
               </div>
             </address>
