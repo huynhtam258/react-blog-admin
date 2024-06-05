@@ -1,8 +1,5 @@
 import axios from 'axios';
 import { BASE_KEY } from './../enums/index';
-import { logout } from './../services/auth.service';
-import { useAppDispatch } from '../store';
-import { useNavigate } from 'react-router-dom';
 
 const http = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
@@ -30,10 +27,7 @@ http.interceptors.response.use(
   },
   (error) => {
     if (error.config.url === '/user/profile') {
-      const dispatch = useAppDispatch();
-      const navigate = useNavigate();
-      
-      logout(dispatch, navigate);
+      localStorage.clear()
     }
     return Promise.reject(error);
   }
