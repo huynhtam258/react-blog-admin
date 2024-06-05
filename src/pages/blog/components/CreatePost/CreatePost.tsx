@@ -1,11 +1,14 @@
 import { Fragment, useEffect, useState } from "react"
 import { Post } from "../../../../types/blog.type"
 import { useSelector } from "react-redux"
-// import { addPost, cancelEditingPost, finishEditingPost } from '../../blog.reducer'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { RootState, useAppDispatch } from "../../../../store"
 import { addPost, getPostList, updatePost } from "../../blog.thunk"
+import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from "@material-tailwind/react";
+import { getMediaList } from "../../../../services/media.service";
+
+import './CreatePost.scss'
 const initialState: Post = {
   id: 0,
   title: '',
@@ -21,10 +24,13 @@ const initialState: Post = {
 }
 export default function CreatePost() {
   const [formData, setFormData] = useState<Post>(initialState)
-  
-  // const [value, setValue] = useState('');
+  const [isOpenMediaDialog, setIsOpenMediaDialog] = useState<boolean>(false)
+  const [tempThumbnail, setTempThumbnail] = useState<string>('')
+
   const editingPost = useSelector((state: RootState) => state.blog.editingPost)
+  const [mediaList, setMediaList] = useState<string[]>([])
   const dispatch = useAppDispatch()
+
 
   useEffect(() => {
     setFormData(editingPost || initialState)
@@ -33,7 +39,7 @@ export default function CreatePost() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (editingPost) {
-      
+
       dispatch(
         updatePost({
           postId: editingPost.id,
@@ -43,7 +49,7 @@ export default function CreatePost() {
         .unwrap()
         .then(() => {
           setFormData(initialState)
-          dispatch(getPostList({page: 1, items_per_page: 10}))
+          dispatch(getPostList({ page: 1, items_per_page: 10 }))
         })
       // dispatch(finishEditingPost(formData))
     } else {
@@ -51,7 +57,7 @@ export default function CreatePost() {
         await dispatch(addPost(formData)).unwrap()
         setFormData(initialState)
       } catch (error) {
-        
+
       }
       // dispatch(addPost(formData))
     }
@@ -62,6 +68,16 @@ export default function CreatePost() {
   const handleReset = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     // dispatch(cancelEditingPost(null))
+  }
+
+  const handleOpen = async () => {
+    const responseMedia = await getMediaList()
+    setMediaList(responseMedia)
+    setIsOpenMediaDialog(true)
+  }
+
+  const resetMedia = () => {
+    setTempThumbnail('')
   }
 
   return (
@@ -95,9 +111,11 @@ export default function CreatePost() {
           id='featuredImage'
           className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-blue-500'
           placeholder='Featured Image'
+          readOnly
           value={formData.thumbnail}
           required
           onChange={(event) => setFormData((prev) => ({ ...prev, thumbnail: event.target.value }))}
+          onClick={() => handleOpen()}
         />
       </div>
       <div className='mb-6'>
@@ -150,25 +168,25 @@ export default function CreatePost() {
       </div>
       <div>
         {editingPost && (
-            <Fragment>
-              <button
-                type='submit'
-                className='group relative mb-2 mr-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-teal-300 to-lime-300 p-0.5 text-sm font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-lime-200 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 dark:focus:ring-lime-800'
-              >
-                <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
-                  Update Post
-                </span>
-              </button>
-              <button
-                type='reset'
-                className='group relative mb-2 mr-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 p-0.5 text-sm font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-100 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 dark:focus:ring-red-400'
-              >
-                <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
-                  Cancel
-                </span>
-              </button>
-            </Fragment>
-          )}
+          <Fragment>
+            <button
+              type='submit'
+              className='group relative mb-2 mr-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-teal-300 to-lime-300 p-0.5 text-sm font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-lime-200 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 dark:focus:ring-lime-800'
+            >
+              <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
+                Update Post
+              </span>
+            </button>
+            <button
+              type='reset'
+              className='group relative mb-2 mr-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 p-0.5 text-sm font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-100 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 dark:focus:ring-red-400'
+            >
+              <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
+                Cancel
+              </span>
+            </button>
+          </Fragment>
+        )}
         {!editingPost && (
           <button
             className='group relative inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-purple-600 to-blue-500 p-0.5 text-sm font-medium text-gray-900 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 group-hover:from-purple-600 group-hover:to-blue-500 dark:text-white dark:focus:ring-blue-800'
@@ -180,6 +198,46 @@ export default function CreatePost() {
           </button>
         )}
       </div>
+
+      {/* upload media */}
+      <Dialog open={isOpenMediaDialog} handler={handleOpen}>
+        <DialogHeader>Media</DialogHeader>
+        <DialogBody>
+          <p>Choose your image</p>
+          <div className="imageList">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+              {mediaList.map((media: any, index) => (
+                <div className="imageItem" key={index} onClick={() => setTempThumbnail(media.media_url)}>
+                  <img
+                    className="h-40 w-full max-w-full rounded-lg object-cover object-center"
+                    src={media?.media_url || ''}
+                    alt="gallery-photo"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </DialogBody>
+        <DialogFooter>
+          <Button
+            variant="text"
+            color="red"
+            onClick={() => {
+              setIsOpenMediaDialog(false)
+            }}
+            className="mr-1"
+          >
+            <span>Cancel</span>
+          </Button>
+          <Button variant="gradient" color="green" onClick={() => {
+            formData.thumbnail = tempThumbnail
+            setIsOpenMediaDialog(false)
+            resetMedia()
+          }}>
+            <span>Confirm</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </form>
   )
 }
