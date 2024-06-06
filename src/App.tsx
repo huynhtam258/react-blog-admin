@@ -28,7 +28,7 @@ function App() {
       element: <Blog />
     },
     {
-      path: '/editor-blog',
+      path: '/create-blog',
       element: <CreatePost />
     },
     {
