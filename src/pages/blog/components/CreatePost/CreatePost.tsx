@@ -4,11 +4,12 @@ import { useSelector } from "react-redux"
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { RootState, useAppDispatch } from "../../../../store"
-import { addPost, getPostList, updatePost } from "../../blog.thunk"
+import { addPost, getPostList, startEditingPost, updatePost } from "../../blog.thunk"
 import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from "@material-tailwind/react";
 import { getMediaList } from "../../../../services/media.service";
 
 import './CreatePost.scss'
+import { useParams } from "react-router-dom";
 const initialState: Post = {
   id: 0,
   title: '',
@@ -30,8 +31,16 @@ export default function CreatePost() {
   const editingPost = useSelector((state: RootState) => state.blog.editingPost)
   const [mediaList, setMediaList] = useState<string[]>([])
   const dispatch = useAppDispatch()
+  const { id } = useParams()
 
-
+  useEffect(() => {
+    if (id !== null && id !== undefined) {
+      dispatch(startEditingPost(+id));
+    } else {
+      dispatch(startEditingPost(null));
+    }
+  }, [id])
+  
   useEffect(() => {
     setFormData(editingPost || initialState)
   }, [editingPost])
@@ -82,6 +91,7 @@ export default function CreatePost() {
 
   return (
     <form onSubmit={handleSubmit} onReset={handleReset}>
+      <h2>{ id !== null && id !== undefined ? 'Chỉnh sửa bài viết' : 'Tạo bài viết mới'}</h2>
       <div className="mb-6">
         <label
           htmlFor='title'
@@ -230,7 +240,9 @@ export default function CreatePost() {
             <span>Cancel</span>
           </Button>
           <Button variant="gradient" color="green" onClick={() => {
-            formData.thumbnail = tempThumbnail
+            if (tempThumbnail) {
+              formData.thumbnail = tempThumbnail
+            }
             setIsOpenMediaDialog(false)
             resetMedia()
           }}>

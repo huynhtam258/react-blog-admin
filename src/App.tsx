@@ -32,6 +32,10 @@ function App() {
       element: <CreatePost />
     },
     {
+      path: '/edit/:id',
+      element: <CreatePost />
+    },
+    {
       path: '/blog/:id',
       element: <BlogDetail />
     }

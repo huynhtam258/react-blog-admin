@@ -3,7 +3,7 @@ import { RootState, useAppDispatch } from '../../../../store';
 import PostItem from '../PostItem';
 import { Card, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
-import { deletePost, getPostList, startEditingPost } from './../../blog.thunk';
+import { deletePost, getPostList } from './../../blog.thunk';
 import { useNavigate } from 'react-router-dom';
 
 export default function PostList() {
@@ -26,8 +26,8 @@ export default function PostList() {
   };
 
   const handleEditingPost = (postId: number) => {
-    dispatch(startEditingPost(postId));
-    navigate('editor-blog');
+    // dispatch(startEditingPost(postId));
+    navigate(`/edit/${postId}`);
   };
 
   const handleReadMorePost = (postId: number) => {
