@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { login } from "../../auth.thunk"
 import { useAppDispatch } from "../../../../store"
-import { useNavigate } from "react-router-dom"
 import { BASE_KEY } from './../../../../enums/index'
 import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input } from "@material-tailwind/react"
 import { setToken } from "../../auth.slice"
+import { showToast } from "../../../../stores/toast.slice"
 
 const initialLoginForm = {
   email: '',
@@ -17,7 +17,6 @@ interface ILoginForm {
 export default function Login() {
   const [loginForm, setLoginForm] = useState<ILoginForm>(initialLoginForm)
   const dispatch = useAppDispatch()
-  const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +26,8 @@ export default function Login() {
       localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token)
       localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key)
       dispatch(setToken(access_token))
-      // 
+    }).catch(() => {
+      dispatch(showToast({ message: 'Login failed!' }));
     })
   }
   return (
@@ -65,7 +65,7 @@ export default function Login() {
           />
         </CardBody>
         <CardFooter className="pt-0">
-          <Button variant="gradient" fullWidth type="submit">
+          <Button variant="gradient" fullWidth type="submit" disabled={!loginForm.email || !loginForm.password}>
             Sign In
           </Button>
           <Typography variant="small" className="mt-6 flex justify-center">

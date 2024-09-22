@@ -13,6 +13,7 @@ import { getUserProfile } from './pages/user/user.thunk';
 import { useSelector } from 'react-redux';
 import { BASE_KEY } from './enums/index'
 import { setToken } from './pages/auth/auth.slice';
+import Toast from './components/Toast';
 function App() {
   const elements = useRoutes([
     {
@@ -72,6 +73,7 @@ function App() {
   }
   return (
     <div className="App">
+      <Toast />
       {
         isLogin &&
         (<MainLayout>
