@@ -1,24 +1,40 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import MainLayout from './layouts/MainLayout';
-import Unauthenticate from './layouts/UnauthenticateLayout';
-import Auth from './pages/auth/auth';
-import Blog from './pages/blog/components';
+
+// enums
+import { BASE_KEY } from './enums/index'
+
+// stores
 import { useNavigate, useRoutes } from 'react-router-dom'
-import BlogDetail from './pages/blog/components/BlogDetail';
-import Home from './pages/home/components/Home';
-import CreatePost from './pages/blog/components/CreatePost';
 import { RootState, useAppDispatch } from './store';
 import { getUserProfile } from './pages/user/user.thunk';
 import { useSelector } from 'react-redux';
-import { BASE_KEY } from './enums/index'
 import { setToken } from './pages/auth/auth.slice';
+
+// components
 import Toast from './components/Toast';
+
+// pages
+import Auth from './pages/auth/auth';
+import Home from './pages/home/components/Home';
+import Products from './pages/product/components/Products';
+import CreatePost from './pages/blog/components/CreatePost';
+import CreateProduct from './pages/product/components/CreateProduct/CreateProduct';
+import Blog from './pages/blog/components';
+import BlogDetail from './pages/blog/components/BlogDetail';
+
+// layout
+import MainLayout from './layouts/MainLayout';
+import Unauthenticate from './layouts/UnauthenticateLayout';
 function App() {
   const elements = useRoutes([
     {
       path: '',
       element: <Home />
+    },
+    {
+      path: '/products',
+      element: <Products />
     },
     {
       path: '/auth/login',
@@ -31,6 +47,10 @@ function App() {
     {
       path: '/create-blog',
       element: <CreatePost />
+    },
+    {
+      path: '/create-product',
+      element: <CreateProduct />
     },
     {
       path: '/edit/:id',

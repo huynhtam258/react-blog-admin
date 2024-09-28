@@ -1,5 +1,5 @@
 import { Button, Card, Dialog, DialogBody, DialogFooter, DialogHeader, List, ListItem, ListItemPrefix } from "@material-tailwind/react";
-import { PresentationChartBarIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon, } from "@heroicons/react/24/solid";
+import { PresentationChartBarIcon, UserCircleIcon, Cog6ToothIcon, PowerIcon, GiftIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store";
 import { logout } from "../services/auth.service";
@@ -25,10 +25,13 @@ const SideBar = () => {
   }
 
   const sidebarItems = [
-    { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Dashboard", onClick: ()=> {handleNavigate('/')}},
-    { icon: <UserCircleIcon className="h-5 w-5" />, label: "Profile" },
-    { icon: <Cog6ToothIcon className="h-5 w-5" />, label: "Create post", onClick: ()=> {handleNavigate('/create-blog')} },
-    { icon: <PowerIcon className="h-5 w-5" />, label: "Log Out", onClick: handleOpen },
+    { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Danh sách bài viết", onClick: ()=> {handleNavigate('/')}},
+    { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Danh sách sản phẩm", onClick: ()=> {handleNavigate('/products')}},
+    { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Danh sách giỏ hàng", onClick: ()=> {handleNavigate('/')}},
+    { icon: <UserCircleIcon className="h-5 w-5" />, label: "Hồ sơ cá nhân" },
+    { icon: <Cog6ToothIcon className="h-5 w-5" />, label: "Tạo bài viết", onClick: ()=> {handleNavigate('/create-blog')} },
+    { icon: <GiftIcon className="h-5 w-5" />, label: "Tạo sản phẩm", onClick: ()=> {handleNavigate('/create-product')} },
+    { icon: <PowerIcon className="h-5 w-5" />, label: "Đăng xuất", onClick: handleOpen },
   ];
   
 

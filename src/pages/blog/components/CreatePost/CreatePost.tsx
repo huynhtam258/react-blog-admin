@@ -5,7 +5,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { RootState, useAppDispatch } from "../../../../store"
 import { addPost, getPostList, startEditingPost, updatePost } from "../../blog.thunk"
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader } from "@material-tailwind/react";
+import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } from "@material-tailwind/react";
 import { getMediaList } from "../../../../services/media.service";
 
 import './CreatePost.scss'
@@ -91,7 +91,9 @@ export default function CreatePost() {
 
   return (
     <form onSubmit={handleSubmit} onReset={handleReset}>
-      <h2>{ id !== null && id !== undefined ? 'Chỉnh sửa bài viết' : 'Tạo bài viết mới'}</h2>
+      <Typography variant="h4" color="blue-gray" className="mb-4">
+        { id !== null && id !== undefined ? 'Chỉnh sửa bài viết' : 'Tạo bài viết mới'}
+      </Typography>
       <div className="mb-6">
         <label
           htmlFor='title'
