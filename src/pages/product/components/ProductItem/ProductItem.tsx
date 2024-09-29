@@ -1,17 +1,18 @@
 import { Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
-import { Post } from "../../../../types/blog.type"
+// import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
-import { convertCommonDate } from "../../../../utils/date"
+import { Product } from "../../../../types/product.type"
+// import { convertCommonDate } from "../../../../utils/date"
 
-interface PostItemType {
-  post: Post,
+interface ProductItemType {
+  product: Product,
   classes: string,
   handleDelete: (postId: number) => void,
   handleEditingPost: (postId: number) => void
   handleReadMorePost: (postId: number) => void
 }
 
-export default function PostItem({ post, classes, handleDelete, handleEditingPost, handleReadMorePost }: PostItemType) {
+export default function PostItem({ product, classes, handleDelete, handleEditingPost, handleReadMorePost }: ProductItemType) {
   return (
     <tr>
       <td className={classes}>
@@ -20,7 +21,7 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
           color="blue-gray"
           className="font-normal"
         >
-          {post.title}
+          {product.productName}
         </Typography>
       </td>
       <td className={classes}>
@@ -29,17 +30,7 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
           color="blue-gray"
           className="font-normal"
         >
-          {`${post.user?.first_name} ${post.user?.last_name}`}
-        </Typography>
-      </td>
-      <td className={classes}>
-        <Typography
-          variant="small"
-          color="blue-gray"
-          className="font-normal"
-        >
-          {convertCommonDate(post.created_at)}
-          {/* {post.created_at} */}
+          { product.productPrice }
         </Typography>
       </td>
       <td className={classes}>
@@ -53,9 +44,9 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
             <ListBulletIcon width={24}></ListBulletIcon>
           </MenuHandler>
           <MenuList>
-            <MenuItem onClick={() => handleReadMorePost(post.id)}>Read More</MenuItem>
-            <MenuItem onClick={() => handleEditingPost(post.id)}>Edit</MenuItem>
-            <MenuItem onClick={() => handleDelete(post.id)}>Delete</MenuItem>
+            <MenuItem onClick={() => handleReadMorePost(product.id)}>Read More</MenuItem>
+            <MenuItem onClick={() => handleEditingPost(product.id)}>Edit</MenuItem>
+            <MenuItem onClick={() => handleDelete(product.id)}>Delete</MenuItem>
           </MenuList>
         </Menu>
       </td>

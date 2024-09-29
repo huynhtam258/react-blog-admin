@@ -1,41 +1,54 @@
-import { useSelector } from 'react-redux';
-import { RootState, useAppDispatch } from '../../../../store';
+// import { useSelector } from 'react-redux';
+// import { RootState, useAppDispatch } from '../../../../store';
 import ProductItem from '../ProductItem';
 import { Card, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
-import { deletePost, getPostList } from '../../../blog/blog.thunk';
-import { useNavigate } from 'react-router-dom';
+// import { deletePost, getPostList } from '../../../blog/blog.thunk';
+// import { useNavigate } from 'react-router-dom';
+import { Product, ProductApi } from '../../../../types/product.type';
+import { getProductList } from '../../../../services/product.service';
 
 export default function PostList() {
-  const postList = useSelector((state: RootState) => state.blog.postList);
+  
+  const TABLE_HEAD = ['Tên sản phẩm', 'Giá', ''];
+  const [productList, setProductList] = useState<Product[]>([])
   const [page] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+
 
   useEffect(() => {
-    const promise = dispatch(getPostList({ page, items_per_page: itemsPerPage }));
-    return () => {
-      promise.abort();
-    };
-  }, [dispatch, page, itemsPerPage]); // Include 'page' and 'itemsPerPage' in the dependency array
+    async function fetchProductList () {
+      const { data } = await getProductList()
+      const products = data.map((product: ProductApi) => ({
+        id: product.id,
+        productName: product.product_name,
+        productThumb: product.product_thumb,
+        productSlug: product.product_slug,
+        productDescription: product.product_description,
+        productPrice: product.product_price,
+        productQuantity: product.product_quantity,
+        productType: product.product_type,
+        isDraft: product.isDraft,
+        isPublish: product.isPublish
+      }))
+      setProductList(products)
+    }
+    fetchProductList()
+  }, []);
 
-  const handleDelete = (postId: number) => {
-    dispatch(deletePost(postId));
-    dispatch(getPostList({ page, items_per_page: itemsPerPage }));
+  const handleDelete = (productId: number) => {
+    // TODO
   };
 
-  const handleEditingPost = (postId: number) => {
-    // dispatch(startEditingPost(postId));
-    navigate(`/edit/${postId}`);
+  const handleEditingPost = (productId: number) => {
+    // TODO
   };
 
-  const handleReadMorePost = (postId: number) => {
-    navigate(`/blog/${postId}`);
+  const handleReadMorePost = (productId: number) => {
+    // TODO
   };
 
   // table
-  const TABLE_HEAD = ['Title', 'Author', 'Created date', ''];
 
   return (
     <Card className="h-full w-full overflow-auto">
@@ -60,12 +73,12 @@ export default function PostList() {
           </tr>
         </thead>
         <tbody>
-          {postList.map((post, index) => {
-            const isLast = index === postList.length - 1;
+          {productList.map((product, index) => {
+            const isLast = index === productList.length - 1;
             const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
             return (
               <ProductItem
-                post={post}
+                product={product}
                 classes={classes}
                 handleDelete={handleDelete}
                 handleEditingPost={handleEditingPost}
