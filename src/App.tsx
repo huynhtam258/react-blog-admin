@@ -19,7 +19,7 @@ import Auth from './pages/auth/auth';
 import Home from './pages/home/components/Home';
 import Products from './pages/product/components/Products';
 import CreatePost from './pages/blog/components/CreatePost';
-import CreateProduct from './pages/product/components/CreateProduct/CreateProduct';
+import CreateProduct from './pages/product/components/ProductForm/ProductForm';
 import BlogDetail from './pages/blog/components/BlogDetail';
 
 // layout
