@@ -38,7 +38,7 @@ export default function PostList() {
   const TABLE_HEAD = ['Title', 'Author', 'Created date', ''];
 
   return (
-    <Card className="h-full w-full overflow-scroll">
+    <Card className="h-full w-full overflow-auto">
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>

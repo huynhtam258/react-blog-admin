@@ -20,7 +20,6 @@ import Home from './pages/home/components/Home';
 import Products from './pages/product/components/Products';
 import CreatePost from './pages/blog/components/CreatePost';
 import CreateProduct from './pages/product/components/CreateProduct/CreateProduct';
-import Blog from './pages/blog/components';
 import BlogDetail from './pages/blog/components/BlogDetail';
 
 // layout
@@ -39,10 +38,6 @@ function App() {
     {
       path: '/auth/login',
       element: <Auth />
-    },
-    {
-      path: '/blog',
-      element: <Blog />
     },
     {
       path: '/create-blog',
@@ -89,7 +84,7 @@ function App() {
 
   const initDataSource = async () => {
     await dispatch(getUserProfile())
-    navigate('/blog')
+    navigate('/')
   }
   return (
     <div className="App">
