@@ -7,7 +7,11 @@ module.exports = withMT({
     "path-to-your-node_modules/@material-tailwind/react/theme/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        '100px': '100px',
+      },
+    },
   },
   plugins: [],
 });

@@ -10,7 +10,7 @@ import { getProductList } from '../../../../services/product.service';
 
 export default function PostList() {
   
-  const TABLE_HEAD = ['Tên sản phẩm', 'Giá', ''];
+  const TABLE_HEAD = ['Tình trạng', 'Tên sản phẩm', 'Hình ảnh', 'Slug', 'Loại sản phẩm','Giá', 'Ngày tạo',''];
   const [productList, setProductList] = useState<Product[]>([])
   const [page] = useState<number>(1);
   const [itemsPerPage] = useState<number>(10);
