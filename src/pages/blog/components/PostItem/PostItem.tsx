@@ -24,6 +24,12 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
         </Typography>
       </td>
       <td className={classes}>
+        <img
+          className="w-100px h-100px object-cover object-center"
+          src={post.thumbnail}
+        />
+      </td>
+      <td className={classes}>
         <Typography
           variant="small"
           color="blue-gray"
@@ -39,7 +45,6 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
           className="font-normal"
         >
           {convertCommonDate(post.created_at)}
-          {/* {post.created_at} */}
         </Typography>
       </td>
       <td className={classes}>

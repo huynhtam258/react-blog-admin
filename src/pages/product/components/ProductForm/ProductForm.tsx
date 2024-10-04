@@ -72,8 +72,8 @@ function ProductForm() {
                 </Option>
               ))}
             </Select>
-            <Button disabled={!isValid} type="submit" fullWidth>
-              OK
+            <Button className='w-100px' disabled={!isValid} type="submit">
+              Tạo
             </Button>
           </form>
         </>

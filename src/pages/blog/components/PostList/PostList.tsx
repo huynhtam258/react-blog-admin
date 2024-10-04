@@ -35,7 +35,7 @@ export default function PostList() {
   };
 
   // table
-  const TABLE_HEAD = ['Title', 'Author', 'Created date', ''];
+  const TABLE_HEAD = ['Tên bài viết', 'Hình ảnh', 'Tác giả', 'Ngày tạo', ''];
 
   return (
     <Card className="h-full w-full overflow-auto">
