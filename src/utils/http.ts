@@ -25,9 +25,31 @@ http.interceptors.response.use(
   (response) => {
     return response;
   },
-  (error) => {
-    if (error.config.url === '/user/profile') {
-      localStorage.clear()
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 419 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const refreshToken = localStorage.getItem(BASE_KEY.REFRESH_TOKEN);
+
+      try {
+        const { data } = await axios.post( process.env.REACT_APP_BASE_URL + 'auth/refresh-token', { refresh_token: refreshToken });
+        const { access_token, refresh_token } = data
+        localStorage.setItem(BASE_KEY.ACCESS_TOKEN, access_token);
+        localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token);
+
+        http.defaults.headers.common['authorization'] = 'Bearer ' + access_token;
+        originalRequest.headers['authorization'] = 'Bearer ' + access_token;
+
+        return axios(originalRequest);
+      } catch (err) {
+        localStorage.clear();
+        return Promise.reject(err);
+      }
+    }
+
+    if (originalRequest.url === '/user/profile') {
+      localStorage.clear();
     }
     return Promise.reject(error);
   }
