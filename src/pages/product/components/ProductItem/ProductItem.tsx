@@ -3,17 +3,20 @@ import { Checkbox, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@ma
 import { ListBulletIcon } from "@heroicons/react/24/solid"
 import { Product } from "../../../../types/product.type"
 import { formatVND } from "../../../../utils/currency"
+import { convertCommonDate } from "../../../../utils/date"
 // import { convertCommonDate } from "../../../../utils/date"
 
 interface ProductItemType {
   product: Product,
   classes: string,
-  handleDelete: (postId: number) => void,
-  handleEditingPost: (postId: number) => void
-  handleReadMorePost: (postId: number) => void
+  handleDelete: (productId: number) => void,
+  handleEditingPost: (productId: number) => void
+  handleReadMorePost: (productId: number) => void
+  handlePublishProduct: (productId: number) => void,
+  handleUnPublishProduct: (productId: number) => void
 }
 
-export default function PostItem({ product, classes, handleDelete, handleEditingPost, handleReadMorePost }: ProductItemType) {
+export default function PostItem({ product, classes, handleDelete, handleEditingPost, handlePublishProduct, handleUnPublishProduct }: ProductItemType) {
   return (
     <tr>
       <td className={classes}>
@@ -23,7 +26,14 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
           className="font-normal"
         >
           <div className="flex items-center">
-            <Checkbox defaultChecked={product.isPublish} crossOrigin={false} />
+            <Checkbox defaultChecked={product.isPublish} crossOrigin={false} onChange={() => {
+              const checked = !product.isPublish
+              if (checked) {
+                handlePublishProduct(product.id)
+              } else {
+                handleUnPublishProduct(product.id)
+              }
+            }}/>
             <p>Công khai</p>
           </div>
         </Typography>
@@ -71,7 +81,7 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
         </Typography>
       </td>
       <td>
-        {/* TODO */}
+        {convertCommonDate(product.createdAt)}
       </td>
       <td className={classes}>
         <Menu
@@ -84,7 +94,6 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
             <ListBulletIcon width={24}></ListBulletIcon>
           </MenuHandler>
           <MenuList>
-            {/* <MenuItem onClick={() => handleReadMorePost(product.id)}>Read More</MenuItem> */}
             <MenuItem onClick={() => handleEditingPost(product.id)}>Chỉnh sửa</MenuItem>
             <MenuItem onClick={() => handleDelete(product.id)}>Xóa</MenuItem>
           </MenuList>

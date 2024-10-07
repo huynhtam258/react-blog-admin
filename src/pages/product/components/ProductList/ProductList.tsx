@@ -1,12 +1,9 @@
-// import { useSelector } from 'react-redux';
-// import { RootState, useAppDispatch } from '../../../../store';
 import ProductItem from '../ProductItem';
 import { Card, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
-// import { deletePost, getPostList } from '../../../blog/blog.thunk';
-// import { useNavigate } from 'react-router-dom';
 import { Product, ProductApi } from '../../../../types/product.type';
-import { getProductList } from '../../../../services/product.service';
+import { draftProduct, getProductList, publishProduct, unPublishProduct } from '../../../../services/product.service';
+import { converterProduct } from '../../../../converters/product.converter';
 
 export default function PostList() {
   
@@ -16,28 +13,18 @@ export default function PostList() {
   const [itemsPerPage] = useState<number>(10);
 
 
+  async function fetchProductList () {
+    const { data } = await getProductList()
+    const products = data.map((product: ProductApi) => converterProduct(product))
+    setProductList(products)
+  }
+  
   useEffect(() => {
-    async function fetchProductList () {
-      const { data } = await getProductList()
-      const products = data.map((product: ProductApi) => ({
-        id: product.id,
-        productName: product.product_name,
-        productThumb: product.product_thumb,
-        productSlug: product.product_slug,
-        productDescription: product.product_description,
-        productPrice: product.product_price,
-        productQuantity: product.product_quantity,
-        productType: product.product_type,
-        isDraft: product.isDraft,
-        isPublish: product.isPublish
-      }))
-      setProductList(products)
-    }
     fetchProductList()
   }, []);
 
-  const handleDelete = (productId: number) => {
-    // TODO
+  const handleDelete = async (productId: number) => {
+    await draftProduct(productId)
   };
 
   const handleEditingPost = (productId: number) => {
@@ -48,7 +35,13 @@ export default function PostList() {
     // TODO
   };
 
-  // table
+  const handlePublishProduct = async (productId: number) => {
+    await publishProduct(productId)
+  }
+
+  const handleUnPublishProduct = async (productId: number) => {
+    await unPublishProduct(productId)
+  }
 
   return (
     <Card className="h-full w-full overflow-auto">
@@ -83,7 +76,9 @@ export default function PostList() {
                 handleDelete={handleDelete}
                 handleEditingPost={handleEditingPost}
                 handleReadMorePost={handleReadMorePost}
-                key={`postItem-${index}`}
+                handlePublishProduct={handlePublishProduct}
+                handleUnPublishProduct={handleUnPublishProduct}
+                key={`productItem-${index}`}
               />
             );
           })}

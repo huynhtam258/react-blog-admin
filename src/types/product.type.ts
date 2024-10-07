@@ -8,7 +8,8 @@ export interface Product {
   productQuantity: number
   productType: string,
   isDraft: false,
-  isPublish: true
+  isPublish: true,
+  createdAt: string
 }
 
 export interface ProductApi {
@@ -21,5 +22,6 @@ export interface ProductApi {
   product_quantity: number
   product_type: string,
   isDraft: false,
-  isPublish: true
+  isPublish: true,
+  created_at: string
 }

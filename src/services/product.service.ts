@@ -11,3 +11,21 @@ export const postProduct = async (product: any) => {
 
   return response
 }
+
+export const publishProduct = async (productId: number) => {
+  const response = await http.put(`/products/publish/${productId}`)
+
+  return response
+}
+
+export const unPublishProduct = async (productId: number) => {
+  const response = await http.put(`/products/unpublish/${productId}`)
+
+  return response
+}
+
+export const draftProduct = async (productId: number) => {
+  const response = await http.put(`/products/draft/${productId}`)
+
+  return response
+}
