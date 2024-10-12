@@ -28,6 +28,7 @@ const SideBar = () => {
     { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Danh sách bài viết", onClick: ()=> {handleNavigate('/')}},
     { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Danh sách sản phẩm", onClick: ()=> {handleNavigate('/products')}},
     { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Danh sách giỏ hàng", onClick: ()=> {handleNavigate('/')}},
+    { icon: <GiftIcon className="h-5 w-5" />, label: "Danh sách hình ảnh", onClick: ()=> {handleNavigate('/media')} },
     { icon: <UserCircleIcon className="h-5 w-5" />, label: "Hồ sơ cá nhân" },
     { icon: <Cog6ToothIcon className="h-5 w-5" />, label: "Tạo bài viết", onClick: ()=> {handleNavigate('/create-blog')} },
     { icon: <GiftIcon className="h-5 w-5" />, label: "Tạo sản phẩm", onClick: ()=> {handleNavigate('/create-product')} },

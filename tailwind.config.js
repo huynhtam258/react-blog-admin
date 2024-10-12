@@ -10,6 +10,13 @@ module.exports = withMT({
     extend: {
       spacing: {
         '100px': '100px',
+        '300px': '300px'
+      },
+      width: {
+        '300px': '300px',
+      },
+      height: {
+        '300px': '300px',
       },
     },
   },

@@ -21,6 +21,7 @@ import Products from './pages/product/components/Products';
 import CreatePost from './pages/blog/components/CreatePost';
 import CreateProduct from './pages/product/components/ProductForm/ProductForm';
 import BlogDetail from './pages/blog/components/BlogDetail';
+import MediaList from './pages/media/components/MediaList';
 
 // layout
 import MainLayout from './layouts/MainLayout';
@@ -54,6 +55,10 @@ function App() {
     {
       path: '/blog/:id',
       element: <BlogDetail />
+    },
+    {
+      path: '/media',
+      element: <MediaList />
     }
   ])
   const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN)

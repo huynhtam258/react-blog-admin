@@ -11,3 +11,9 @@ export const postMedia = async (file: any) => {
 
   return response
 }
+
+export const deleteMedia = async (id: string) => {
+  const response = await http.patch( `/media/delete/${id}`)
+
+  return response
+}
