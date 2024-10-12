@@ -89,7 +89,6 @@ function App() {
 
   const initDataSource = async () => {
     await dispatch(getUserProfile())
-    navigate('/')
   }
   return (
     <div className="App">

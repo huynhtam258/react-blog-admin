@@ -26,9 +26,9 @@ export default function PhotoListPage () {
     setIsOpenMediaDialog(false)
   } 
   return (
-    <div className="container mx-auto py-8">
+    <div className="">
       <Typography variant="h4" color="blue-gray" className="mb-4">
-        Danh sách sản phẩm
+        Danh sách hình ảnh
       </Typography>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
         {mediaList.map((image: any, index) => (

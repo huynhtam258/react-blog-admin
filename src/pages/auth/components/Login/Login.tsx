@@ -5,6 +5,7 @@ import { BASE_KEY } from './../../../../enums/index'
 import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input } from "@material-tailwind/react"
 import { setToken } from "../../auth.slice"
 import { showToast } from "../../../../stores/toast.slice"
+import { useNavigate } from "react-router-dom"
 
 const initialLoginForm = {
   email: '',
@@ -17,7 +18,7 @@ interface ILoginForm {
 export default function Login() {
   const [loginForm, setLoginForm] = useState<ILoginForm>(initialLoginForm)
   const dispatch = useAppDispatch()
-
+  const navigate = useNavigate()
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(login(loginForm)).unwrap().then((result) => {
@@ -26,6 +27,7 @@ export default function Login() {
       localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token)
       localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key)
       dispatch(setToken(access_token))
+      navigate('/')
     }).catch(() => {
       dispatch(showToast({ message: 'Login failed!' }));
     })
