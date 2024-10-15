@@ -1,112 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy, useCallback } from 'react';
 import './App.css';
 
 // enums
-import { BASE_KEY } from './enums/index'
+import { BASE_KEY } from './enums/index';
 
 // stores
-import { useNavigate, useRoutes } from 'react-router-dom'
+import { useRoutes } from 'react-router-dom';
 import { RootState, useAppDispatch } from './store';
 import { getUserProfile } from './pages/user/user.thunk';
 import { useSelector } from 'react-redux';
-import { setToken } from './pages/auth/auth.slice';
 
 // components
 import Toast from './components/Toast';
+import AuthGuard from './components/AuthGuard'; // Import AuthGuard
 
-// pages
-import Auth from './pages/auth/auth';
-import Home from './pages/home/components/Home';
-import Products from './pages/product/components/Products';
-import CreatePost from './pages/blog/components/CreatePost';
-import CreateProduct from './pages/product/components/ProductForm/ProductForm';
-import BlogDetail from './pages/blog/components/BlogDetail';
-import MediaList from './pages/media/components/MediaList';
+// Import routes from the new file
+import { routes } from './routers/index';
 
-// layout
-import MainLayout from './layouts/MainLayout';
-import Unauthenticate from './layouts/UnauthenticateLayout';
+const MainLayout = lazy(() => import('./layouts/MainLayout'));
+const Unauthenticate = lazy(() => import('./layouts/UnauthenticateLayout'));
+
 function App() {
-  const elements = useRoutes([
-    {
-      path: '',
-      element: <Home />
-    },
-    {
-      path: '/products',
-      element: <Products />
-    },
-    {
-      path: '/auth/login',
-      element: <Auth />
-    },
-    {
-      path: '/create-blog',
-      element: <CreatePost />
-    },
-    {
-      path: '/create-product',
-      element: <CreateProduct />
-    },
-    {
-      path: '/edit/:id',
-      element: <CreatePost />
-    },
-    {
-      path: '/blog/:id',
-      element: <BlogDetail />
-    },
-    {
-      path: '/media',
-      element: <MediaList />
-    }
-  ])
-  const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN)
-  const [isLogin, setIsLogin] = useState<boolean>(false)
-  const userProfile = useSelector((state: RootState) => state.user.userProfile)
-  const accessToken = useSelector((state: RootState) => state.auth.accessToken)
-  
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const elements = useRoutes(routes);
+  const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const userProfile = useSelector((state: RootState) => state.user.userProfile);
+  const accessToken = useSelector((state: RootState) => state.auth.accessToken);
+  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    if (token) {
-      dispatch(setToken(token))
-    } else {
-      navigate('/auth/login')
-    }
-  }, [token])
+  const initDataSource = useCallback(async () => {
+    await dispatch(getUserProfile());
+  }, [dispatch]);
 
   useEffect(() => {
     if (accessToken) {
-      initDataSource()
+      initDataSource();
     }
-  }, [accessToken])
+  }, [accessToken, initDataSource]);
 
   useEffect(() => {
-    setIsLogin(!!userProfile)
-  }, [userProfile])
+    setIsLogin(!!userProfile);
+  }, [userProfile]);
 
-  const initDataSource = async () => {
-    await dispatch(getUserProfile())
-  }
   return (
     <div className="App">
       <Toast />
-      {
-        isLogin &&
-        (<MainLayout>
-          {elements}
-        </MainLayout>)
-      }
-      {
-        !isLogin && (
-          <Unauthenticate>
-            {elements}
-          </Unauthenticate>
-        )
-      }
-
+      <Suspense fallback={<div>Loading...</div>}>
+        <AuthGuard token={token}>
+          {isLogin ? (
+            <MainLayout>{elements}</MainLayout>
+          ) : (
+            <Unauthenticate>{elements}</Unauthenticate>
+          )}
+        </AuthGuard>
+      </Suspense>
     </div>
   );
 }
