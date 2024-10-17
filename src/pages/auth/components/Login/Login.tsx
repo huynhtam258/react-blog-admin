@@ -1,41 +1,45 @@
-import { useState } from "react"
-import { login } from "../../auth.thunk"
-import { useAppDispatch } from "../../../../store"
-import { BASE_KEY } from './../../../../enums/index'
-import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input } from "@material-tailwind/react"
-import { setToken } from "../../auth.slice"
-import { showToast } from "../../../../stores/toast.slice"
-import { useNavigate } from "react-router-dom"
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useAppDispatch } from "../../../../store";
+import { login } from "../../auth.thunk";
+import { BASE_KEY } from './../../../../enums/index';
+import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input, IconButton } from "@material-tailwind/react";
+import { setToken } from "../../auth.slice";
+import { showToast } from "../../../../stores/toast.slice";
+import { useNavigate } from "react-router-dom";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
-const initialLoginForm = {
-  email: '',
-  password: ''
-}
 interface ILoginForm {
-  email: string,
-  password: string
+  email: string;
+  password: string;
 }
+
 export default function Login() {
-  const [loginForm, setLoginForm] = useState<ILoginForm>(initialLoginForm)
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    dispatch(login(loginForm)).unwrap().then((result) => {
-      const { access_token, refresh_token, client_key } = result
-      localStorage.setItem(BASE_KEY.ACCESS_TOKEN, access_token)
-      localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token)
-      localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key)
-      dispatch(setToken(access_token))
-      navigate('/')
+  const { register, handleSubmit, formState: { errors, isValid } } = useForm<ILoginForm>();
+  const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = (data: ILoginForm) => {
+    dispatch(login(data)).unwrap().then((result) => {
+      const { access_token, refresh_token, client_key } = result;
+      localStorage.setItem(BASE_KEY.ACCESS_TOKEN, access_token);
+      localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token);
+      localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key);
+      dispatch(setToken(access_token));
+      navigate('/');
     }).catch(() => {
       dispatch(showToast({ message: 'Login failed!' }));
-    })
-  }
+    });
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Card className="w-96">
-
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <CardHeader
           variant="gradient"
           color="gray"
@@ -46,28 +50,32 @@ export default function Login() {
           </Typography>
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
-          <Input 
-            crossOrigin={undefined} 
-            label="Email" 
-            size="lg" 
-            value={loginForm.email} 
-            onChange={(event) => setLoginForm((prev) => ({
-              ...prev,
-              email: event.target.value
-            }))} 
-          />
-          <Input 
-            crossOrigin={undefined} 
-            label="Password" 
+          <Input
+            label="Email"
             size="lg"
-            onChange={(event) => setLoginForm((prev) => ({
-              ...prev,
-              password: event.target.value
-            }))}
+            {...register("email", { required: true })}
+            crossOrigin={""}
           />
+          {errors.email && <span>Email is required</span>}
+          <div className="relative">
+            <Input
+              label="Password"
+              size="lg"
+              type={showPassword ? "text" : "password"}
+              {...register("password", { required: true })}
+              crossOrigin={""}
+            />
+            <div
+              className="absolute h-full flex items-center w-[30px] inset-y-0 right-0"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <EyeSlashIcon className="h-5 w-5" /> : <EyeIcon className="h-5 w-5" />}
+            </div>
+          </div>
+          {errors.password && <span>Password is required</span>}
         </CardBody>
         <CardFooter className="pt-0">
-          <Button variant="gradient" fullWidth type="submit" disabled={!loginForm.email || !loginForm.password}>
+          <Button disabled={!isValid} variant="gradient" fullWidth type="submit">
             Sign In
           </Button>
           <Typography variant="small" className="mt-6 flex justify-center">
@@ -83,7 +91,6 @@ export default function Login() {
           </Typography>
         </CardFooter>
       </form>
-
     </Card>
-  )
+  );
 }
