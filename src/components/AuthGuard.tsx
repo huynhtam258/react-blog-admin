@@ -1,4 +1,3 @@
-// src/components/AuthGuard.tsx
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store';

@@ -22,9 +22,6 @@ const Unauthenticate = lazy(() => import('./layouts/UnauthenticateLayout'));
 
 function App() {
   const elements = useRoutes(routes);
-  const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const userProfile = useSelector((state: RootState) => state.user.userProfile);
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const dispatch = useAppDispatch();
 
@@ -38,16 +35,12 @@ function App() {
     }
   }, [accessToken, initDataSource]);
 
-  useEffect(() => {
-    setIsLogin(!!userProfile);
-  }, [userProfile]);
-
   return (
     <div className="App">
       <Toast />
       <Suspense fallback={<div>Loading...</div>}>
-        <AuthGuard token={token}>
-          {isLogin ? (
+        <AuthGuard token={localStorage.getItem(BASE_KEY.ACCESS_TOKEN)}>
+          {localStorage.getItem(BASE_KEY.ACCESS_TOKEN) ? (
             <MainLayout>{elements}</MainLayout>
           ) : (
             <Unauthenticate>{elements}</Unauthenticate>

@@ -27,6 +27,10 @@ http.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
+    if (error.response.status === 401 && error.response.statusText === 'Unauthorized') {
+      // TODO Unauthorized
+    }
+
     if (error.response.status === 419 && !originalRequest._retry) {
       originalRequest._retry = true;
 
