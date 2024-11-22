@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Card, Input, Button, Typography, Textarea, Select, Option } from '@material-tailwind/react';
+import { postProduct } from '../../../../services/product.service';
+import { useAppDispatch } from '../../../../store';
+import { showToast } from '../../../../stores/toast.slice';
 
 interface IFormInput {
   productName: string;
@@ -16,12 +19,26 @@ const productTypes = [
 
 function ProductForm() {
   const [formProductValues] = useState();
+  const dispatch = useAppDispatch();
   const { register, handleSubmit, setValue, formState: { errors, isValid } } = useForm<IFormInput>({
     defaultValues: formProductValues,
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+    const productBody = {
+        product_name: data.productName,
+        product_description: data.productDescription,
+        product_price: data.productPrice,
+        product_quantity: data.productQuantity,
+        product_type: data.productType,
+        product_thumb: '',
+        product_slug: ''
+    }
+    postProduct(productBody).then(() => {
+      dispatch(showToast({ message: 'Tạo sản phẩm thành công' }));
+    }).catch(() => {
+      dispatch(showToast({ message: 'Tạo sản phẩm thất bại' }));
+    })
   };
 
   return (
