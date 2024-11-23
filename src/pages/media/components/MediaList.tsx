@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardBody, Typography, Button, Dialog, DialogBody, DialogFooter, DialogHeader} from "@material-tailwind/react";
 import { deleteMedia, getMediaList } from '../../../services/media.service';
+import { useNavigate } from 'react-router-dom';
 
 export default function PhotoListPage () {
   const [mediaList, setMediaList] = useState<string[]>([])
   const [isOpenMediaDialog, setIsOpenMediaDialog] = useState<boolean>(false)
   const [imageSelected, setImageSelected] = useState<any>()
+  const navigate = useNavigate();
+
   async function fetchMedia() {
     const responseMedia = await getMediaList()
     setMediaList(responseMedia)
   }
+  
   useEffect(() => {
     fetchMedia()
   }, []);
@@ -27,8 +31,9 @@ export default function PhotoListPage () {
   } 
   return (
     <div className="">
-      <Typography variant="h4" color="blue-gray" className="mb-4">
+      <Typography variant="h4" color="blue-gray" className="mb-4 flex justify-between">
         Danh sách hình ảnh
+        <Button onClick={() => { navigate('/upload-image') }}>Upload ảnh</Button>
       </Typography>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2.5">
         {mediaList.map((image: any, index) => (

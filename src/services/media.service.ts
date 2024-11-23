@@ -6,11 +6,22 @@ export const getMediaList = async () => {
   return response.data
 }
 
-export const postMedia = async (file: any) => {
-  const response = await http.post('/media/upload', { file })
+export const postMedia = async (file: File) => {
+  // Tạo một đối tượng FormData
+  const formData = new FormData();
+  
+  // Append file vào FormData. 'file' là tên trường mà API yêu cầu (thay đổi nếu cần)
+  formData.append('file', file);
 
-  return response
-}
+  // Gửi POST request với FormData
+  const response = await http.post('/media/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data', // Thiết lập header Content-Type
+    },
+  });
+
+  return response;
+};
 
 export const deleteMedia = async (id: string) => {
   const response = await http.patch( `/media/delete/${id}`)

@@ -9,6 +9,7 @@ const CreatePost = lazy(() => import('../pages/blog/components/CreatePost'));
 const CreateProduct = lazy(() => import('../pages/product/components/ProductForm/ProductForm'));
 const BlogDetail = lazy(() => import('../pages/blog/components/BlogDetail'));
 const MediaList = lazy(() => import('../pages/media/components/MediaList'));
+const MediaUpload = lazy(() => import('../pages/media/components/MediaUpload'));
 
 export const routes: RouteObject[] = [
   {
@@ -43,4 +44,8 @@ export const routes: RouteObject[] = [
     path: '/media',
     element: <MediaList />,
   },
+  {
+    path: '/upload-image',
+    element: <MediaUpload />
+  }
 ];
