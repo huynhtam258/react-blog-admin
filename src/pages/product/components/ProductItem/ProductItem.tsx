@@ -1,10 +1,9 @@
 import { Checkbox, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
-// import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
 import { Product } from "../../../../types/product.type"
 import { formatVND } from "../../../../utils/currency"
 import { convertCommonDate } from "../../../../utils/date"
-// import { convertCommonDate } from "../../../../utils/date"
+import ImageWithFallback from "../../../../components/common/ImageWithFallback"
 
 interface ProductItemType {
   product: Product,
@@ -48,9 +47,10 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
         </Typography>
       </td>
       <td className={classes}>
-        <img
+        <ImageWithFallback
           className="w-100px h-100px object-cover object-center"
           src={product.productThumb}
+          fallbackSrc="/img/image-placeholder.png"
         />
       </td>
       <td className={classes}>

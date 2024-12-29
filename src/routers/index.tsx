@@ -1,5 +1,9 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
+import Guard from '../components/Guard';
+
+import UnauthenticateLayout from '../layouts/UnauthenticateLayout';
+import MainLayout from '../layouts/MainLayout';
 
 // Dynamic imports for pages
 const Auth = lazy(() => import('../pages/auth/auth'));
@@ -13,39 +17,33 @@ const MediaUpload = lazy(() => import('../pages/media/components/MediaUpload'));
 
 export const routes: RouteObject[] = [
   {
-    path: '',
-    element: <Home />,
+    path: '/',
+    element: <Guard />,
+    children: [
+      {
+        path: 'auth',
+        element: <UnauthenticateLayout />,
+        children: [
+          { path: 'login', element: <Auth /> },
+        ],
+      },
+      {
+        path: '/',
+        element: <MainLayout />,
+        children: [
+          { path: '/posts', element: <Home /> },
+          { path: '/products', element: <Products /> },
+          { path: '/create-blog', element: <CreatePost />},
+          { path: '/create-product', element: <CreateProduct />,},
+          { path: '/edit/:id', element: <CreatePost />,},
+          { path: '/blog/:id', element: <BlogDetail />,},
+          { path: '/media', element: <MediaList />,},
+          { path: '/upload-image', element: <MediaUpload />}
+        ],
+      },
+    ],
   },
-  {
-    path: '/products',
-    element: <Products />,
-  },
-  {
-    path: '/auth/login',
-    element: <Auth />,
-  },
-  {
-    path: '/create-blog',
-    element: <CreatePost />,
-  },
-  {
-    path: '/create-product',
-    element: <CreateProduct />,
-  },
-  {
-    path: '/edit/:id',
-    element: <CreatePost />,
-  },
-  {
-    path: '/blog/:id',
-    element: <BlogDetail />,
-  },
-  {
-    path: '/media',
-    element: <MediaList />,
-  },
-  {
-    path: '/upload-image',
-    element: <MediaUpload />
-  }
+
 ];
+
+export default routes;

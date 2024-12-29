@@ -2,6 +2,7 @@ import { Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tai
 import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
 import { convertCommonDate } from "../../../../utils/date"
+import ImageWithFallback from "../../../../components/common/ImageWithFallback"
 
 interface PostItemType {
   post: Post,
@@ -24,9 +25,11 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
         </Typography>
       </td>
       <td className={classes}>
-        <img
+        <ImageWithFallback
           className="w-100px h-100px object-cover object-center"
           src={post.thumbnail}
+          fallbackSrc="/img/image-placeholder.png"
+          alt={post.title}
         />
       </td>
       <td className={classes}>

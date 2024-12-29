@@ -27,7 +27,7 @@ export default function Login() {
       localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token);
       localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key);
       dispatch(setToken(access_token));
-      navigate('/');
+      navigate('/posts');
     }).catch(() => {
       dispatch(showToast({ message: 'Login failed!' }));
     });
