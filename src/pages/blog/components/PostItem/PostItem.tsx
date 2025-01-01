@@ -3,6 +3,7 @@ import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
 import { convertCommonDate } from "../../../../utils/date"
 import ImageWithFallback from "../../../../components/common/ImageWithFallback"
+import React from "react"
 
 interface PostItemType {
   post: Post,
@@ -12,7 +13,7 @@ interface PostItemType {
   handleReadMorePost: (postId: number) => void
 }
 
-export default function PostItem({ post, classes, handleDelete, handleEditingPost, handleReadMorePost }: PostItemType) {
+const PostItem: React.FC<PostItemType> = ({ post, classes, handleDelete, handleEditingPost, handleReadMorePost }) => {
   return (
     <tr>
       <td className={classes}>
@@ -27,8 +28,8 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
       <td className={classes}>
         <ImageWithFallback
           className="w-100px h-100px object-cover object-center"
-          src={post.thumbnail}
           fallbackSrc="/img/image-placeholder.png"
+          src={post.thumbnail}
           alt={post.title}
         />
       </td>
@@ -70,3 +71,5 @@ export default function PostItem({ post, classes, handleDelete, handleEditingPos
     </tr>
   )
 }
+
+export default PostItem

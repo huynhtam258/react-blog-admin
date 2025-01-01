@@ -12,6 +12,11 @@ const Guard: React.FC = () => {
       const token = localStorage.getItem(BASE_KEY.ACCESS_TOKEN);
       if (!token) {
         redirectToLogin(navigate, location)
+      } else {
+        if (location.pathname === '/') {
+          navigate('/posts', { replace: true });
+        }
+        
       }
     } catch (error) {
       redirectToLogin(navigate, location)
