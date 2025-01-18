@@ -62,9 +62,9 @@ const PostItem: React.FC<PostItemType> = ({ post, classes, handleDelete, handleE
             <ListBulletIcon width={24}></ListBulletIcon>
           </MenuHandler>
           <MenuList>
-            <MenuItem onClick={() => handleReadMorePost(post.id)}>Read More</MenuItem>
-            <MenuItem onClick={() => handleEditingPost(post.id)}>Edit</MenuItem>
-            <MenuItem onClick={() => handleDelete(post.id)}>Delete</MenuItem>
+            <MenuItem onClick={() => handleReadMorePost(post.id)}>Đọc chi tiết</MenuItem>
+            <MenuItem onClick={() => handleEditingPost(post.id)}>Chỉnh sửa</MenuItem>
+            <MenuItem onClick={() => handleDelete(post.id)}>Xóa</MenuItem>
           </MenuList>
         </Menu>
       </td>
