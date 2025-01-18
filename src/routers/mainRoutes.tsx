@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
-import MainLayout from '../layouts/MainLayout';
+import MainLayout from './../layouts/MainLayout/MainLayout';
 
 // Dynamic imports for pages
 const Home = lazy(() => import('../pages/home/components/Home'));
