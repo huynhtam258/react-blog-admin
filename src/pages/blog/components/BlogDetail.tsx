@@ -40,7 +40,7 @@ export default function BlogDetail() {
                 </div>
               </div>
             </address>
-            <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">Best practices for successful prototypes</h1>
+            <h1 className="mb-4 text-3xl font-bold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{ postDetail?.title }</h1>
           </header>
           <p className="lead text-gray-500 text-2xl mt-4 mb-4">
             {postDetail?.description}
