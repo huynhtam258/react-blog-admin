@@ -1,16 +1,16 @@
+import React, { useEffect, useState } from 'react';
 import ProductItem from '../ProductItem';
 import { Card, Typography } from '@material-tailwind/react';
-import { useEffect, useState } from 'react';
 import { Product, ProductApi } from '../../../../types/product.type';
 import { draftProduct, getProductList, publishProduct, unPublishProduct } from '../../../../services/product.service';
 import { converterProduct } from '../../../../converters/product.converter';
 
-export default function PostList() {
+const ProductList: React.FC = () => {
   
   const TABLE_HEAD = ['Tình trạng', 'Tên sản phẩm', 'Hình ảnh', 'Slug', 'Loại sản phẩm','Giá', 'Ngày tạo',''];
   const [productList, setProductList] = useState<Product[]>([])
-  const [page] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(10);
+  // const [page] = useState<number>(1);
+  // const [itemsPerPage] = useState<number>(10);
 
 
   async function fetchProductList () {
@@ -87,3 +87,5 @@ export default function PostList() {
     </Card>
   );
 }
+
+export default ProductList

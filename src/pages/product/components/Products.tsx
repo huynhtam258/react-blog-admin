@@ -1,7 +1,8 @@
 import { Typography } from "@material-tailwind/react";
 import ProductList from "./ProductList/ProductList";
+import React from "react";
 
-export default function Home() {
+const Products: React.FC = () => {
   return (
     <section> 
       <Typography variant="h4" color="blue-gray" className="mb-4">
@@ -12,3 +13,5 @@ export default function Home() {
        
   )
 }
+
+export default Products

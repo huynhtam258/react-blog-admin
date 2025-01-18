@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch } from "../../../../store";
 import { login } from "../../auth.thunk";
 import { BASE_KEY } from './../../../../enums/index';
-import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input, IconButton } from "@material-tailwind/react";
+import { Card, CardBody, CardHeader, Typography, CardFooter, Button, Input } from "@material-tailwind/react";
 import { setToken } from "../../auth.slice";
 import { showToast } from "../../../../stores/toast.slice";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,7 @@ interface ILoginForm {
   password: string;
 }
 
-export default function Login() {
+const Login: React.FC = () => {
   const { register, handleSubmit, formState: { errors, isValid } } = useForm<ILoginForm>();
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
@@ -27,7 +27,7 @@ export default function Login() {
       localStorage.setItem(BASE_KEY.REFRESH_TOKEN, refresh_token);
       localStorage.setItem(BASE_KEY.CLIENT_KEY, client_key);
       dispatch(setToken(access_token));
-      navigate('/');
+      navigate('/posts', { replace: true});
     }).catch(() => {
       dispatch(showToast({ message: 'Login failed!' }));
     });
@@ -54,7 +54,7 @@ export default function Login() {
             label="Email"
             size="lg"
             {...register("email", { required: true })}
-            crossOrigin={""}
+            crossOrigin={undefined}
           />
           {errors.email && <span>Email is required</span>}
           <div className="relative">
@@ -63,7 +63,7 @@ export default function Login() {
               size="lg"
               type={showPassword ? "text" : "password"}
               {...register("password", { required: true })}
-              crossOrigin={""}
+              crossOrigin={undefined}
             />
             <div
               className="absolute h-full flex items-center w-[30px] inset-y-0 right-0"
@@ -94,3 +94,5 @@ export default function Login() {
     </Card>
   );
 }
+
+export default Login

@@ -1,10 +1,10 @@
+import React from "react"
 import { Checkbox, Menu, MenuHandler, MenuItem, MenuList, Typography } from "@material-tailwind/react"
-// import { Post } from "../../../../types/blog.type"
 import { ListBulletIcon } from "@heroicons/react/24/solid"
 import { Product } from "../../../../types/product.type"
 import { formatVND } from "../../../../utils/currency"
 import { convertCommonDate } from "../../../../utils/date"
-// import { convertCommonDate } from "../../../../utils/date"
+import ImageWithFallback from "../../../../components/common/ImageWithFallback"
 
 interface ProductItemType {
   product: Product,
@@ -16,7 +16,7 @@ interface ProductItemType {
   handleUnPublishProduct: (productId: number) => void
 }
 
-export default function PostItem({ product, classes, handleDelete, handleEditingPost, handlePublishProduct, handleUnPublishProduct }: ProductItemType) {
+const ProductItem: React.FC<ProductItemType> = ({ product, classes, handleDelete, handleEditingPost, handlePublishProduct, handleUnPublishProduct }) =>{
   return (
     <tr>
       <td className={classes}>
@@ -26,7 +26,7 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
           className="font-normal"
         >
           <div className="flex items-center">
-            <Checkbox defaultChecked={product.isPublish} crossOrigin={false} onChange={() => {
+            <Checkbox defaultChecked={product.isPublish} crossOrigin={undefined} onChange={() => {
               const checked = !product.isPublish
               if (checked) {
                 handlePublishProduct(product.id)
@@ -48,9 +48,11 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
         </Typography>
       </td>
       <td className={classes}>
-        <img
+        <ImageWithFallback
           className="w-100px h-100px object-cover object-center"
+          fallbackSrc="/img/image-placeholder.png"
           src={product.productThumb}
+          alt={product.productName}
         />
       </td>
       <td className={classes}>
@@ -102,3 +104,5 @@ export default function PostItem({ product, classes, handleDelete, handleEditing
     </tr>
   )
 }
+
+export default ProductItem

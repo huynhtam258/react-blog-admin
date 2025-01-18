@@ -5,11 +5,12 @@ import { Card, Typography } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import { deletePost, getPostList } from './../../blog.thunk';
 import { useNavigate } from 'react-router-dom';
+import { PAGINATION } from '../../../../enums';
 
-export default function PostList() {
+const PostList = () => {
   const postList = useSelector((state: RootState) => state.blog.postList);
-  const [page] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(10);
+  const [page] = useState<number>(PAGINATION.PAGE);
+  const [itemsPerPage] = useState<number>(PAGINATION.ITEM_PER_PAGE);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -78,3 +79,5 @@ export default function PostList() {
     </Card>
   );
 }
+
+export default PostList

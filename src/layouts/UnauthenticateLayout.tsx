@@ -1,16 +1,15 @@
-import React from 'react'
-
 // styles
 import './UnauthenticateLayout.scss'
 
-interface Props {
-  children?: React.ReactNode
-}
-export default function Unauthenticate({ children }: Props) {
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
+const UnauthenticateLayout: React.FC = () => {
   return (
-    <div className='unauthenticate-layout'>
-      {children}
+    <div className="unauthenticate-layout">
+      <Outlet />
     </div>
-  )
-}
+  );
+};
+
+export default UnauthenticateLayout;
