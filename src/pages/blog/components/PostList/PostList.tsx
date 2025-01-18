@@ -1,12 +1,13 @@
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../../../store';
 import PostItem from '../PostItem';
-import { Card, Typography } from '@material-tailwind/react';
+import { Card } from '@material-tailwind/react';
 import { useEffect, useState } from 'react';
 import { deletePost, getPostList } from './../../blog.thunk';
 import { useNavigate } from 'react-router-dom';
 import { PAGINATION } from '../../../../enums';
 import { DebouncedInput } from '../../../../components/common/input';
+import TableHeaderCell from '../../../../components/common/table/TableHeaderCell';
 
 const PostList = () => {
   const postList = useSelector((state: RootState) => state.blog.postList);
@@ -56,18 +57,9 @@ const PostList = () => {
           <thead>
             <tr>
               {TABLE_HEAD.map((head) => (
-                <th
-                  key={head}
-                  className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-normal leading-none opacity-70"
-                  >
-                    {head}
-                  </Typography>
-                </th>
+                <TableHeaderCell>
+                  {head}
+                </TableHeaderCell>
               ))}
             </tr>
           </thead>
