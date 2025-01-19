@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
-import UnauthenticateLayout from '../../layouts/UnauthenticateLayout/UnauthenticateLayout';
+import UnauthenticateLayout from '../../layouts/UnauthenticateLayout';
 
 // Dynamic import for the Auth component
 const Auth = lazy(() => import('../../pages/auth/auth'));
