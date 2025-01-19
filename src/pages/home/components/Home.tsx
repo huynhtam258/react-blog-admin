@@ -12,9 +12,9 @@ export default function Home() {
           Danh sách bài viết
         </Typography>
         
-        <Button onClick={() => { navigate('/create-blog') }}>
-          <p className='flex items-center gap-1'>Tạo bài viết mới <PlusIcon className="h-5 w-5" /></p>
-        </Button>
+      <Button onClick={() => { navigate('/create-blog') }}>
+        <p className='flex items-center gap-1'>Tạo bài viết mới <PlusIcon className="h-5 w-5" /></p>
+      </Button>
       </div>
       <PostList />
     </section>
