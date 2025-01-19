@@ -18,7 +18,6 @@ const sidebarItems = (navigate: NavigateFunction, handleOpen: () => void) => [
   { icon: <ShoppingCartIcon className="h-5 w-5" />, label: "Giỏ hàng", onClick: () => { handleNavigate(navigate, '/') } },
   { icon: <GiftIcon className="h-5 w-5" />, label: "Hình ảnh", onClick: () => { handleNavigate(navigate, '/media') } },
   { icon: <UserCircleIcon className="h-5 w-5" />, label: "Hồ sơ cá nhân" },
-  { icon: <GiftIcon className="h-5 w-5" />, label: "Tạo sản phẩm", onClick: () => { handleNavigate(navigate, '/create-product') } },
   { icon: <PowerIcon className="h-5 w-5" />, label: "Đăng xuất", onClick: handleOpen },
 ];
 
