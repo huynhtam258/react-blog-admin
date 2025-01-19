@@ -45,7 +45,7 @@ const PostList = () => {
   return (
     <>
       <div className='mb-4'>
-      <DebouncedInput
+        <DebouncedInput
           type="text"
           placeholder="Tìm kiếm bài viết"
           value={searchText}

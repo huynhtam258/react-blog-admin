@@ -6,5 +6,5 @@ export const BASE_KEY = {
 
 export const PAGINATION = {
   PAGE: 1,
-  ITEM_PER_PAGE: 5
+  ITEM_PER_PAGE: 10
 }
