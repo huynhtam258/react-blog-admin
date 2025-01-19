@@ -17,7 +17,7 @@ const sidebarItems = (navigate: NavigateFunction, handleOpen: () => void) => [
   { icon: <PresentationChartBarIcon className="h-5 w-5" />, label: "Sản phẩm", onClick: () => { handleNavigate(navigate, '/products') } },
   { icon: <ShoppingCartIcon className="h-5 w-5" />, label: "Giỏ hàng", onClick: () => { handleNavigate(navigate, '/') } },
   { icon: <GiftIcon className="h-5 w-5" />, label: "Hình ảnh", onClick: () => { handleNavigate(navigate, '/media') } },
-  { icon: <UserCircleIcon className="h-5 w-5" />, label: "Hồ sơ cá nhân", onClick: () => { handleNavigate(navigate, '/profile') } },
+  { icon: <UserCircleIcon className="h-5 w-5" />, label: "Thông tin cá nhân", onClick: () => { handleNavigate(navigate, '/profile') } },
   { icon: <PowerIcon className="h-5 w-5" />, label: "Đăng xuất", onClick: handleOpen },
 ];
 
