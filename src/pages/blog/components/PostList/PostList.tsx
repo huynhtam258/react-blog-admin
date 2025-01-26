@@ -57,7 +57,7 @@ const PostList = () => {
           <thead>
             <tr>
               {TABLE_HEAD.map((head) => (
-                <TableHeaderCell>
+                <TableHeaderCell key={`table-head-${head}`}>
                   {head}
                 </TableHeaderCell>
               ))}
