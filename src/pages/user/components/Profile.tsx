@@ -3,6 +3,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDropzone } from 'react-dropzone';
 import { Button, Typography } from '@material-tailwind/react';
 import Input from '../../../components/common/input/input'; // Adjust the import path as needed
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store';
+import { uploadAvatarProfile } from '../../../services/user.service';
 
 interface ProfileFormValues {
   firstName: string;
@@ -15,13 +18,13 @@ interface ProfileFormValues {
 const Profile: React.FC = () => {
   const { register, handleSubmit, setValue } = useForm<ProfileFormValues>();
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
-
+  const userProfile = useSelector((state: RootState) => state.user.userProfile);
   useEffect(() => {
     // Set temporary values for the form fields
-    setValue('firstName', 'John');
-    setValue('lastName', 'Doe');
-    setValue('email', 'john.doe@example.com');
-    // setValue('bio', 'This is a temporary bio.');
+    setValue('firstName', userProfile?.first_name || '');
+    setValue('lastName', userProfile?.last_name || '');
+    setValue('email', userProfile?.email || '');
+    setAvatarPreview(userProfile?.avatar || '');
   }, [setValue]);
 
   const onDrop = (acceptedFiles: File[]) => {
@@ -39,7 +42,13 @@ const Profile: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<ProfileFormValues> = (data) => {
-    console.log(data);
+    if (data.avatar) {
+        uploadAvatarProfile(data.avatar).finally(() => {
+          console.log('Avatar uploaded');
+        }
+      )
+    }
+
   };
 
   return (
@@ -73,16 +82,10 @@ const Profile: React.FC = () => {
           <Input
             type="email"
             placeholder="Email"
+            readOnly
             {...register('email', { required: true })}
           />
         </div>
-        {/* <div className="mb-4">
-          <Input
-            type="text"
-            placeholder="Bio"
-            {...register('bio')}
-          />
-        </div> */}
         <Button type="submit">Cập nhật thông tin</Button>
       </form>
     </div>
