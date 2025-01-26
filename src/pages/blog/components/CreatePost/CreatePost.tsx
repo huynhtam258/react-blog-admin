@@ -9,7 +9,7 @@ import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Typography } fr
 import { getMediaList } from "../../../../services/media.service";
 
 import './CreatePost.scss'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const initialState: Post = {
   id: 0,
   title: '',
@@ -32,6 +32,7 @@ export default function CreatePost() {
   const [mediaList, setMediaList] = useState<string[]>([])
   const dispatch = useAppDispatch()
   const { id } = useParams()
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id !== null && id !== undefined) {
@@ -72,6 +73,7 @@ export default function CreatePost() {
     }
 
     setFormData(initialState)
+    navigate('/posts')
   }
 
   const handleReset = (event: React.FormEvent<HTMLFormElement>) => {
@@ -99,7 +101,7 @@ export default function CreatePost() {
           htmlFor='title'
           className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'
         >
-          Title
+          Tiêu đề
         </label>
         <input
           type='text'
@@ -116,7 +118,7 @@ export default function CreatePost() {
           htmlFor='featuredImage'
           className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'
         >
-          Featured Image
+          Hình ảnh bài viết
         </label>
         <input
           type='text'
@@ -133,7 +135,7 @@ export default function CreatePost() {
       <div className='mb-6'>
         <div>
           <label htmlFor='description' className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-400'>
-            Description
+            Chú thích bài viết
           </label>
           <textarea
             id='description'
@@ -148,13 +150,13 @@ export default function CreatePost() {
       </div>
       <div className='mb-6'>
         <label htmlFor='publishDate' className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-          Content
+          Nôi dung bài viết
         </label>
         <ReactQuill theme="snow" value={formData.content} onChange={(event) => setFormData((prev) => ({ ...prev, content: event }))} />
       </div>
       <div className='mb-6'>
         <label htmlFor='publishDate' className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300'>
-          Publish Date
+          Ngày phát hành
         </label>
         <input
           type='datetime-local'
@@ -175,7 +177,7 @@ export default function CreatePost() {
           onChange={(event) => setFormData((prev) => ({ ...prev, publish: event.target.checked }))}
         />
         <label htmlFor='publish' className='ml-2 text-sm font-medium text-gray-900'>
-          Publish
+          Phát hành
         </label>
       </div>
       <div>
@@ -186,15 +188,16 @@ export default function CreatePost() {
               className='group relative mb-2 mr-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-teal-300 to-lime-300 p-0.5 text-sm font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-lime-200 group-hover:from-teal-300 group-hover:to-lime-300 dark:text-white dark:hover:text-gray-900 dark:focus:ring-lime-800'
             >
               <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
-                Update Post
+                Cập nhật bài viết
               </span>
             </button>
             <button
               type='reset'
               className='group relative mb-2 mr-2 inline-flex items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 p-0.5 text-sm font-medium text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-100 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 dark:text-white dark:hover:text-gray-900 dark:focus:ring-red-400'
+              onClick={() => { navigate('/posts') }}
             >
               <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
-                Cancel
+                Hủy bỏ
               </span>
             </button>
           </Fragment>
@@ -205,7 +208,7 @@ export default function CreatePost() {
             type='submit'
           >
             <span className='relative rounded-md bg-white px-5 py-2.5 transition-all duration-75 ease-in group-hover:bg-opacity-0 dark:bg-gray-900'>
-              Publish Post
+              Phát hành bài viết
             </span>
           </button>
         )}
@@ -239,7 +242,7 @@ export default function CreatePost() {
             }}
             className="mr-1"
           >
-            <span>Cancel</span>
+            <span>Hủy</span>
           </Button>
           <Button variant="gradient" color="green" onClick={() => {
             if (tempThumbnail) {
@@ -248,7 +251,7 @@ export default function CreatePost() {
             setIsOpenMediaDialog(false)
             resetMedia()
           }}>
-            <span>Confirm</span>
+            <span>Chấp nhận</span>
           </Button>
         </DialogFooter>
       </Dialog>

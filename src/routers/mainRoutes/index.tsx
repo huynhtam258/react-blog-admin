@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
-import MainLayout from '../../layouts/MainLayout/MainLayout';
+import MainLayout from '../../layouts/MainLayout';
 
 // Dynamic imports for pages
 const Home = lazy(() => import('../../pages/home/components/Home'));
@@ -10,7 +10,7 @@ const CreateProduct = lazy(() => import('../../pages/product/components/ProductF
 const BlogDetail = lazy(() => import('../../pages/blog/components/BlogDetail'));
 const MediaList = lazy(() => import('../../pages/media/components/MediaList'));
 const MediaUpload = lazy(() => import('../../pages/media/components/MediaUpload'));
-
+const Profile = lazy(() => import('../../pages/user/components/Profile'));
 const mainRoutes: RouteObject[] = [
   {
     path: '',
@@ -23,7 +23,8 @@ const mainRoutes: RouteObject[] = [
       { path: '/edit/:id', element: <CreatePost />,},
       { path: '/blog/:id', element: <BlogDetail />,},
       { path: '/media', element: <MediaList />,},
-      { path: '/upload-image', element: <MediaUpload />}
+      { path: '/upload-image', element: <MediaUpload />},
+      { path: '/profile', element: <Profile /> },
     ],
   },
 ];
