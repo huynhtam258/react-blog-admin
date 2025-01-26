@@ -49,23 +49,21 @@ const Profile: React.FC = () => {
         await uploadAvatarProfile(data.avatar)
       }
       await updateProfile({ first_name: data.firstName, last_name: data.lastName })
-    } catch (error) {
-      
-    } finally {
+    } catch (error) { } finally {
       await dispatch(getUserProfile()).unwrap();
     }
-   
+
   };
 
   return (
     <div className="p-4">
       <Typography variant="h4" className="mb-4">Thông tin cá nhân</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-4 w-24">
+        <div className="mb-4">
           <div {...getRootProps()} className="border-dashed border-2 border-gray-300 p-4 text-center cursor-pointer">
             <input {...getInputProps()} />
             {avatarPreview ? (
-              <img src={avatarPreview} alt="Avatar Preview" className="mx-auto h-24 w-24 rounded-full" />
+              <img src={avatarPreview} alt="Avatar Preview" className="mx-auto h-40 w-40 rounded-full" />
             ) : (
               <p>Kéo thả hình ảnh của bạn vào đây</p>
             )}
@@ -75,6 +73,7 @@ const Profile: React.FC = () => {
           <Input
             type="text"
             placeholder="Họ"
+            style={{ width: 600, margin: 'auto' }}
             {...register('lastName', { required: true })}
           />
         </div>
@@ -82,18 +81,22 @@ const Profile: React.FC = () => {
           <Input
             type="text"
             placeholder="Tên"
+            style={{ width: 600, margin: 'auto' }}
             {...register('firstName', { required: true })}
           />
         </div>
-        <div className="mb-4">
+        <div className="flex gap-4 mb-4">
           <Input
             type="email"
             placeholder="Email"
             readOnly
+            style={{ width: 600, margin: 'auto' }}
             {...register('email', { required: true })}
           />
         </div>
-        <Button type="submit">Cập nhật thông tin</Button>
+        <div className='w-full flex justify-center'>
+          <Button type="submit">Cập nhật thông tin</Button>
+        </div>
       </form>
     </div>
   );
