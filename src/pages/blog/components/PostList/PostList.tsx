@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { PAGINATION } from '../../../../enums';
 import { DebouncedInput } from '../../../../components/common/input';
 import TableHeaderCell from '../../../../components/common/table/TableHeaderCell';
-
+import './PostList.scss'
 const PostList = () => {
   const postList = useSelector((state: RootState) => state.blog.postList);
 
@@ -40,8 +40,28 @@ const PostList = () => {
   };
 
   // table
-  const TABLE_HEAD = ['Tên bài viết', 'Hình ảnh', 'Tác giả', 'Ngày tạo', ''];
-
+  const TABLE_HEAD = [
+    {
+      text: 'Tên bài viết',
+      className: ''
+    }, 
+    {
+      text: 'Hình ảnh',
+      className: ''
+    }, 
+    {
+      text: 'Tác giả',
+      className: 'author-col'
+    }, 
+    {
+      text: 'Ngày tạo',
+      className: 'date-col'
+    }, 
+    {
+      text: '',
+      className: 'menu-col'
+    }, 
+  ];
   return (
     <>
       <div className='mb-4'>
@@ -56,9 +76,9 @@ const PostList = () => {
         <table className="w-full min-w-max table-auto text-left">
           <thead>
             <tr>
-              {TABLE_HEAD.map((head) => (
-                <TableHeaderCell key={`table-head-${head}`}>
-                  {head}
+              {TABLE_HEAD.map((head, index) => (
+                <TableHeaderCell key={`table-head-${index}`} className={head.className}>
+                  {head.text}
                 </TableHeaderCell>
               ))}
             </tr>
