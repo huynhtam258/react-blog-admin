@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../../store";
 import { login } from "../../auth.thunk";
 import { BASE_KEY } from './../../../../enums/index';
@@ -21,6 +21,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data: ILoginForm) => {
+    localStorage.clear();
     dispatch(login(data)).unwrap().then((result) => {
       const { access_token, refresh_token, client_key } = result;
       localStorage.setItem(BASE_KEY.ACCESS_TOKEN, access_token);
