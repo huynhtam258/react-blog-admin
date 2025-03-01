@@ -132,6 +132,7 @@ export default function CreatePost() {
           onClick={() => handleOpen()}
         />
       </div>
+      {formData.thumbnail && <img src={formData.thumbnail} alt="" />}
       <div className='mb-6'>
         <div>
           <label htmlFor='description' className='mb-2 block text-sm font-medium text-gray-900 dark:text-gray-400'>
