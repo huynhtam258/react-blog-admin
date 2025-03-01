@@ -44,10 +44,10 @@ export default function PhotoListPage () {
           </Card>
         ))}
       </div>
-      <Dialog open={isOpenMediaDialog} handler={handleOpen}>
-        <DialogHeader>Media</DialogHeader>
+      <Dialog size='xs' open={isOpenMediaDialog} handler={handleOpen}>
+        <DialogHeader>Xóa ảnh</DialogHeader>
         <DialogBody>
-          <p>Bạn có muốn xóa ảnh không</p>
+          <p>Bạn có muốn xóa ảnh không ?</p>
         </DialogBody>
         <DialogFooter>
           <Button

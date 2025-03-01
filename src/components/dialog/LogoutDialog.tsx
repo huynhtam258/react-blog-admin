@@ -9,10 +9,10 @@ interface LogoutDialogProps {
 
 const LogoutDialog: React.FC<LogoutDialogProps> = ({ open, handleOpen, handleLogOut }) => {
   return (
-    <Dialog open={open} handler={handleOpen}>
-      <DialogHeader>Logout</DialogHeader>
+    <Dialog size='xs' open={open} handler={handleOpen}>
+      <DialogHeader>Đăng xuất</DialogHeader>
       <DialogBody>
-        Would you like to logout?
+        Bạn có muốn đăng xuất không ?
       </DialogBody>
       <DialogFooter>
         <Button
@@ -21,10 +21,10 @@ const LogoutDialog: React.FC<LogoutDialogProps> = ({ open, handleOpen, handleLog
           onClick={handleOpen}
           className="mr-1"
         >
-          <span>Cancel</span>
+          <span>Hủy</span>
         </Button>
         <Button variant="gradient" color="green" onClick={handleLogOut}>
-          <span>Confirm</span>
+          <span>Chấp nhận</span>
         </Button>
       </DialogFooter>
     </Dialog>

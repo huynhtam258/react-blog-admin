@@ -26,8 +26,7 @@ const initialState: Post = {
 export default function CreatePost() {
   const [formData, setFormData] = useState<Post>(initialState)
   const [isOpenMediaDialog, setIsOpenMediaDialog] = useState<boolean>(false)
-  const [tempThumbnail, setTempThumbnail] = useState<string>('')
-
+  const [selectedThumbnail, setSelectedThumbnail] = useState<string>('')
   const editingPost = useSelector((state: RootState) => state.blog.editingPost)
   const [mediaList, setMediaList] = useState<string[]>([])
   const dispatch = useAppDispatch()
@@ -46,6 +45,11 @@ export default function CreatePost() {
     setFormData(editingPost || initialState)
   }, [editingPost])
 
+  const onHandleImage = (image: any) => {
+    if (image) {
+      setSelectedThumbnail(image.media_url)
+    }
+  }
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (editingPost) {
@@ -85,10 +89,6 @@ export default function CreatePost() {
     const responseMedia = await getMediaList()
     setMediaList(responseMedia)
     setIsOpenMediaDialog(true)
-  }
-
-  const resetMedia = () => {
-    setTempThumbnail('')
   }
 
   return (
@@ -215,16 +215,16 @@ export default function CreatePost() {
       </div>
 
       {/* upload media */}
-      <Dialog open={isOpenMediaDialog} handler={handleOpen}>
+      <Dialog size="sm" open={isOpenMediaDialog} handler={handleOpen}>
         <DialogHeader>Media</DialogHeader>
         <DialogBody>
           <p>Choose your image</p>
           <div className="imageList">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               {mediaList.map((media: any, index) => (
-                <div className="imageItem" key={index} onClick={() => setTempThumbnail(media.media_url)}>
+                <div className="imageItem" key={index} onClick={() => onHandleImage(media)}>
                   <img
-                    className="h-40 w-full max-w-full rounded-lg object-cover object-center"
+                    className={`h-40 w-full max-w-full rounded-lg object-cover object-center ${media.media_url === selectedThumbnail ? 'selected-image' : ''}`}
                     src={media?.media_url || ''}
                     alt="gallery-photo"
                   />
@@ -238,18 +238,18 @@ export default function CreatePost() {
             variant="text"
             color="red"
             onClick={() => {
+              setSelectedThumbnail('')
               setIsOpenMediaDialog(false)
             }}
             className="mr-1"
           >
             <span>Hủy</span>
           </Button>
-          <Button variant="gradient" color="green" onClick={() => {
-            if (tempThumbnail) {
-              formData.thumbnail = tempThumbnail
+          <Button disabled={!selectedThumbnail} variant="gradient" color="green" onClick={() => {
+            if (selectedThumbnail) {
+              formData.thumbnail = selectedThumbnail
             }
             setIsOpenMediaDialog(false)
-            resetMedia()
           }}>
             <span>Chấp nhận</span>
           </Button>

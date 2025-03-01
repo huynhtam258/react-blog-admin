@@ -20,7 +20,7 @@ const PostItem: React.FC<PostItemType> = ({ post, classes, handleDelete, handleE
         <Typography
           variant="small"
           color="blue-gray"
-          className="font-normal"
+          className="font-bold"
         >
           {post.title}
         </Typography>
